@@ -1,8 +1,8 @@
 version: '3'
 
 volumes:
-  makro_local_postgres_data: { }
-  makro_local_postgres_data_backups: { }
+  anjan_postgres_data: { }
+  anjan_postgres_data_backups: { }
 
 services:
   django: &django
@@ -29,8 +29,8 @@ services:
     image: "${POSTGRES_IMAGE_NAME}"
     container_name: "${POSTGRES_CONTAINER_NAME}"
     volumes:
-      - makro_local_postgres_data:/var/lib/postgresql/data
-      - makro_local_postgres_data_backups:/backups
+      - anjan_postgres_data:/var/lib/postgresql/data
+      - anjan_postgres_data_backups:/backups
     env_file:
       - .env
 
