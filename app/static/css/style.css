@@ -2,6 +2,7 @@
   --background-color: #ffffff; /* Default light mode background color */
   --text-color: #000000; /* Default light mode text color */
 }
+
 a {
   color: black;
 }
@@ -43,14 +44,9 @@ ul.category-list li img {
 }
 
 .row {
-  display: block;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.row h2 {
-  text-align: center;
-  margin: 0; /* Remove default margin */
 }
 
 
@@ -73,4 +69,30 @@ button {
 button:hover {
   background-color: var(--text-color);
   color: var(--background-color);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.left-column,
+.center-column,
+.right-column {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.left-column {
+  text-align: left;
+  width: 20%;
+}
+
+.right-column {
+  text-align: left;
+  width: 10px;
+}
+
+.back-button {
+  /* Style your back button here */
 }

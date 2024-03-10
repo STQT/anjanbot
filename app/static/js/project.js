@@ -1,46 +1,73 @@
-function redirectToMain() {
-    window.location.href = "/telegram/";
+function addToCart(productId) {
+    var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
+
+    getProductData(productId) // Fetch product data
+        .then(productData => {
+            console.log(productData);
+            if (productCount === 0) {
+                sessionStorage.setItem('product_' + productId, JSON.stringify(productData));
+            } else {
+                var updatedProduct = JSON.parse(sessionStorage.getItem('product_' + productId));
+                updatedProduct.count += 1;
+                sessionStorage.setItem('product_' + productId, JSON.stringify(updatedProduct));
+            }
+            updateMainButton();
+            updateProductDisplay(productId);
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch operation
+            console.error('Error fetching product data:', error);
+        });
 }
 
-function deleteProduct(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const index = cart.indexOf(productId);
-    console.log(cart, "cart");
-    console.log(index)
-    if (index > -1) {
-        cart.splice(index, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        document.getElementById(`product-${productId}`).remove();
-        console.log(`Removed product with ID ${productId} from the cart`);
-    } else {
-        redirectToMain();
-    }
-}
-
-function increaseCount(productId) {
-    const countElement = document.getElementById(`prod-${productId}`);
-    if (countElement) {
-        let count = parseInt(countElement.innerText);
-        count++;
-        countElement.innerText = count;
-    } else {
-        redirectToMain();
-    }
+function getProductData(productId) {
+    const apiUrl = '/telegram/product/' + productId.toString();
+    // Return the fetch Promise
+    return fetch(apiUrl)
+        .then(response => {
+            // Check if the request was successful (status code 200)
+            if (!response.ok) {
+                alert("Server Error");
+                throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response and return the price value
+            return response.json();
+        });
 }
 
 function decreaseCount(productId) {
-    const countElement = document.getElementById(`prod-${productId}`);
-    if (countElement) {
-        let count = parseInt(countElement.innerText);
-        if (count > 1) {
-            count--;
-            countElement.innerText = count;
-        } else {
-            console.log(`Minimum count reached for product with ID ${productId}`);
-        }
+    var product = JSON.parse(sessionStorage.getItem('product_' + productId));
+    if (product.count > 1) {
+        product.count -= 1;
+        sessionStorage.setItem('product_' + productId, JSON.stringify(product));
     } else {
-        redirectToMain();
+        sessionStorage.removeItem('product_' + productId);
     }
+    updateMainButton();
+    updateProductDisplay(productId);
 }
 
+function increaseCount(productId) {
+    var product = JSON.parse(sessionStorage.getItem('product_' + productId));
+    product.count += 1;
+    sessionStorage.setItem('product_' + productId, JSON.stringify(product));
+    updateMainButton();
+    updateProductDisplay(productId);
+}
+
+function getCartItemCount() {
+    var totalPrice = 0;
+    var itemCount = 0;
+
+    for (var i = 0; i < sessionStorage.length; i++) {
+        var key = sessionStorage.key(i);
+        if (key.startsWith('product_')) {
+            var product = JSON.parse(sessionStorage.getItem(key));
+            itemCount += product.count; // Increment itemCount by the count of each product
+            totalPrice += product.count * product.price; // Calculate the total price
+        }
+    }
+
+    return {itemCount: itemCount, totalPrice: totalPrice};
+}
 

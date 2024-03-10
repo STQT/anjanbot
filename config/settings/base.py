@@ -325,7 +325,7 @@ LIFESPAN_CONTEXT = 'config.lifespan.lifespan_context'
 DJANGO_SETTINGS_MODULE = 'config.settings.local' if DEBUG else 'config.settings.production'
 BOT_TOKEN = env("BOT_TOKEN")
 BOT_WEBHOOK_PATH = "bot"
-HOST = env("HOST", default="https://bot.makromarket.uz")
+HOST = env("HOST", default="https://warm-centrally-mutt.ngrok-free.app")
 
 JAZZMIN_SETTINGS = {
     "navigation_expanded": True,
