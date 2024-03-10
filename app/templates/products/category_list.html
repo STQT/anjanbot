@@ -13,15 +13,28 @@
   <ul class="category-list">
     {% for category in categories %}
       <li>
-        <a href="{% url 'product_list' category.id %}?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}" class="link">
+        <div class="link" onclick="redirectTo('{{ category.id }}')">
           {% if category.image %}
             <img src="{{ category.image.url }}" alt="{{ category.name }}" width="100" height="100">
           {% else %}
             <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="100" height="100">
           {% endif %}
           {{ category.name }}
-        </a>
+        </div>
       </li>
     {% endfor %}
   </ul>
+  <script>
+    function redirectTo(categoryId) {
+      var queryParams = window.location.search.substr(1);
+      var url = '/tg/category/' + categoryId + '/'; // Replace 0 with the appropriate URL pattern name
+      if (queryParams) {
+        url += '?' + queryParams + '&';
+      } else {
+        url += '?';
+      }
+      // url += 'categoryId=' + categoryId; // Append category id or any other parameter you want
+      window.location.href = url;
+    }
+  </script>
 {% endblock %}

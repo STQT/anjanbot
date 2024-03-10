@@ -23,6 +23,15 @@ ul.category-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+ul.category-list li {
+  width: 50%; /* Two columns */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  padding: 10px; /* Adjust padding as needed */
 }
 
 
@@ -95,4 +104,38 @@ button:hover {
 
 .back-button {
   /* Style your back button here */
+}
+
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.product-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
+.product-details {
+  flex-grow: 1;
+}
+
+.product-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.product-price {
+  font-size: 16px;
+}
+
+.product-count {
+  font-size: 16px;
+  margin-top: 5px;
 }

@@ -3,7 +3,6 @@ function addToCart(productId) {
 
     getProductData(productId) // Fetch product data
         .then(productData => {
-            console.log(productData);
             if (productCount === 0) {
                 sessionStorage.setItem('product_' + productId, JSON.stringify(productData));
             } else {
@@ -56,4 +55,3 @@ function getCartItemCount() {
 
     return {itemCount: itemCount, totalPrice: totalPrice};
 }
-

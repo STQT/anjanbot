@@ -24,12 +24,21 @@ def product_list(request, category_id):
 def get_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     language = request.GET.get('lang', 'uz')
-    print(language)
     activate(language)
     data = {
+        'id': product.pk,
         'price': product.price,
         'name': product.name,
-        'image': product.image.url if product.image else None,
+        'image': product.image.url if product.image else '/static/images/not_found.jpeg',
         'count': 1
     }
     return JsonResponse(data)
+
+
+def cart(request):
+    # Retrieve cart data from session storage
+    language = request.GET.get('lang', 'uz')
+    activate(language)
+
+    # Pass cart data to the template
+    return render(request, 'products/cart.html')

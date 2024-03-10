@@ -15,11 +15,10 @@
         // Extract the count property from the product object
         var productCount = product.count;
       }
-      console.log(productCount);
       var productDiv = document.getElementById('product-' + productId);
       if (productCount === 0) {
         productDiv.innerHTML = `
-            <button onclick="addToCart(${productId})">{% trans 'Add to Cart' %}</button>
+            <button onclick="addToCart(${productId})">{% trans "Qo'shish" %}</button>
         `;
       } else {
         productDiv.innerHTML = `
@@ -28,54 +27,50 @@
             <button onclick="increaseCount(${productId})" type="button" class="count-buttons">+</button>
         `;
       }
-
     }
 
     function updateMainButton() {
-    var cartInfo = getCartItemCount();
-    var button = Telegram.WebApp.MainButton;
-    if (cartInfo.itemCount > 0) {
+      var cartInfo = getCartItemCount();
+      var button = Telegram.WebApp.MainButton;
+      if (cartInfo.itemCount > 0) {
         // If there are items in the cart, show the main button with appropriate text
         button.setParams({
-            text: '{% trans "Savat: " %}' + cartInfo.totalPrice.toFixed(0),
-            is_visible: true
+          text: '{% trans "Savat: " %}' + cartInfo.totalPrice.toFixed(0),
+          is_visible: true
         }).onClick(function () {
-            // Your logic to handle clicking the main button when there are items in the cart
-            // For example, redirecting to the cart page
-            window.location.href = '/cart'; // Replace '/cart' with your actual cart page URL
+          // Your logic to handle clicking the main button when there are items in the cart
+          // For example, redirecting to the cart page
+          window.location.href = '/tg/cart' + '?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}';
         });
-    } else {
+      } else {
         // If there are no items in the cart, hide the main button
         button.setParams({
-            is_visible: false
+          is_visible: false
         });
+      }
     }
-}
 
     function getProductData(productId) {
-        const apiUrl = '/telegram/product/' + productId.toString() +
-          '?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}';
-        // Return the fetch Promise
-        return fetch(apiUrl)
-            .then(response => {
-                // Check if the request was successful (status code 200)
-                if (!response.ok) {
-                    alert("Server Error");
-                    throw new Error('Network response was not ok');
-                }
-                // Parse the JSON response and return the price value
-                return response.json();
-            });
+      const apiUrl = '/tg/product/' + productId.toString() +
+        '?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}';
+      // Return the fetch Promise
+      return fetch(apiUrl)
+        .then(response => {
+          // Check if the request was successful (status code 200)
+          if (!response.ok) {
+            alert("Server Error");
+            throw new Error('Network response was not ok');
+          }
+          // Parse the JSON response and return the price value
+          return response.json();
+        });
     }
+
     updateMainButton();
   </script>
   <div class="header">
-    <div class="left-column">
-      <button onclick="goBack()" class="back-button">Back</button>
-    </div>
-    <div class="center-column">
-      <h2>{{ category.name }}</h2>
-    </div>
+    <div class="left-column"><button onclick="goBack()" class="back-button">Back</button></div>
+    <div class="center-column"><h2>{{ category.name }}</h2></div>
     <div class="right-column"></div> <!-- Empty column -->
   </div>
   <ul class="category-list">
@@ -88,7 +83,8 @@
         {% endif %}
         {{ product.name }} - {{ product.price }}
         <div id="product-{{ product.id }}">
-          <button onclick="addToCart({{ product.id }})">Add to Cart</button>
+          <button onclick="addToCart({{ product.id }})">{% trans "Qo'shish" %}</button>
+          <span id="prod-{{ product.id }}"></span>
         </div>
       </li>
     {% endfor %}
@@ -101,10 +97,8 @@
     document.addEventListener('DOMContentLoaded', function () {
       // Loop through each product and update its display
       var products = document.querySelectorAll('.category-list li');
-      console.log(products);
       products.forEach(function (product) {
         var productId = product.getAttribute('data-product-id');
-        console.log(productId)
         updateProductDisplay(productId);
       });
     });
