@@ -20,20 +20,6 @@ function addToCart(productId) {
         });
 }
 
-function getProductData(productId) {
-    const apiUrl = '/telegram/product/' + productId.toString();
-    // Return the fetch Promise
-    return fetch(apiUrl)
-        .then(response => {
-            // Check if the request was successful (status code 200)
-            if (!response.ok) {
-                alert("Server Error");
-                throw new Error('Network response was not ok');
-            }
-            // Parse the JSON response and return the price value
-            return response.json();
-        });
-}
 
 function decreaseCount(productId) {
     var product = JSON.parse(sessionStorage.getItem('product_' + productId));

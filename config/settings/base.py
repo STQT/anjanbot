@@ -1,10 +1,10 @@
 import environ
 
 from django.utils.translation import gettext_lazy as _
+
 """Base settings to build other settings files upon."""
 
 from pathlib import Path
-
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # app/
@@ -29,10 +29,10 @@ TIME_ZONE = "Asia/Tashkent"
 LANGUAGE_CODE = "uz"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 LANGUAGES = [
-    ('ru', _('Русский')),
     ('uz', _('O\'zbek')),
+    ('ru', _('Русский')),
 ]
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'uz'
 MODELTRANSLATION_LANGUAGES = ('ru', 'uz')
 MODELTRANSLATION_TRANSLATION_FILES = (
     'app.products.translation',
@@ -369,8 +369,8 @@ JAZZMIN_UI_TWEAKS = {
             "name": "Channel",
             "icon": "fas fa-phone",
 
-    }]
-},
+        }]
+    },
 }
 X_FRAME_OPTIONS = 'ALLOWALL'
 CKEDITOR_CONFIGS = {

@@ -20,6 +20,7 @@ async def echo_handler(message: types.Message, user: User) -> None:
 
     if message.text in menu_text_list:
         if message.text in ("🍟 Заказать", "🍟 Buyurtma berish"):
+            url = settings.HOST + "/telegram/?lang=" + user.language
             await message.answer(
                 "Good. Now you can try to send it via Webview",
                 reply_markup=InlineKeyboardMarkup(
@@ -27,10 +28,9 @@ async def echo_handler(message: types.Message, user: User) -> None:
                         [
                             InlineKeyboardButton(
                                 text="Open Webview",
-                                web_app=WebAppInfo(url=settings.HOST+"/telegram")
+                                web_app=WebAppInfo(url=url)
                             )
                         ]
                     ]
                 ),
             )
-
