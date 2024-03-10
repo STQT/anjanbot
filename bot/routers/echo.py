@@ -1,5 +1,6 @@
 from aiogram import Router, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _, activate
 from app.users.models import TelegramUser as User
 from bot.utils.kbs import menu_keyboards_dict
@@ -26,7 +27,7 @@ async def echo_handler(message: types.Message, user: User) -> None:
                         [
                             InlineKeyboardButton(
                                 text="Open Webview",
-                                web_app=WebAppInfo(url="https://warm-centrally-mutt.ngrok-free.app/telegram")
+                                web_app=WebAppInfo(url=settings.HOST+"/telegram")
                             )
                         ]
                     ]
