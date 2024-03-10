@@ -12,11 +12,13 @@ from app.users.views import send_telegram
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+
     path('bot/', include('bot.urls')),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # Your stuff: custom urls includes go here
+    path("telegram/", include("app.products.urls"), name="telegram"),
     path('send_telegram/<int:notification_id>', send_telegram, name="send_notification"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:

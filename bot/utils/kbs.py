@@ -1,18 +1,14 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from django.utils.translation import gettext_lazy as _
-from aiogram.types import KeyboardButton
+from aiogram.types import KeyboardButton, KeyboardButtonRequestChat, KeyboardButtonRequestUsers
 
 languages = (
     str(_("🇺🇿 O'zbek tili")),
     str(_("🇷🇺 Русский язык"))
 )
 menu_keyboards_dict = {
-    "ru": ("🆕 Ввод нового промо кода", "💼 Мои промо коды",
-           "🎁 Об акции", "🌐 Социальные сети",
-           "👤 Личный кабинет"),
-    "uz": ("🆕 Yangi promokod kiritish", "💼 Promokodlarim",
-           "🎁 Aksiya haqida", "🌐 Ijtimoiy tarmoqlar",
-           "👤 Shaxsiy kabinet")
+    "ru": ("🍟 Заказать",),
+    "uz": ("🍟 Buyurtma berish",)
 }
 
 

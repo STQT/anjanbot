@@ -13,7 +13,6 @@ class I18Middleware(BaseMiddleware):
                        event: Update,
                        data: Dict[str, Any]
                        ) -> Any:
-
         user: Optional[User] = data.get('user', None)
         if user is None or user.language not in dict(settings.LANGUAGES):
             activate(settings.LANGUAGE_CODE)

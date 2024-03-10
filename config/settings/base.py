@@ -26,7 +26,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # In Windows, this must be set to your system time zone.
 TIME_ZONE = "Asia/Tashkent"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "uz"
 # https://docs.djangoproject.com/en/dev/ref/settings/#languages
 LANGUAGES = [
     ('ru', _('Русский')),
@@ -34,9 +34,9 @@ LANGUAGES = [
 ]
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 MODELTRANSLATION_LANGUAGES = ('ru', 'uz')
-# MODELTRANSLATION_TRANSLATION_FILES = (
-#     'app.promotions.translation',
-# )
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'app.products.translation',
+)
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "app.users",
+    "app.products",
     "bot",
 
     # Your stuff: custom apps go here

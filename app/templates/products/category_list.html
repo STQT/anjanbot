@@ -1,0 +1,19 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{% block title %}Category List{% endblock %}
+{% block content %}
+    <ul class="category-list">
+        {% for category in categories %}
+            <li>
+                <a href="{% url 'product_list' category.id %}" class="link">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" width="100" height="100">
+                    {% else %}
+                        <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="100" height="100">
+                    {% endif %}
+                    {{ category.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

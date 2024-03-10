@@ -1,0 +1,88 @@
+{% extends 'products/base.html' %}
+{% load static i18n %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+  <script>
+    function addToCart(productId) {
+      // Logic to add product to cart
+      // For example, you might increment the count of the product in local storage
+      var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
+      console.log(productCount);
+      if (productCount === 0) {
+        sessionStorage.setItem('product_' + productId, 1);
+      } else {
+        sessionStorage.setItem('product_' + productId, productCount + 1);
+      }
+      updateProductDisplay(productId);
+    }
+
+    function decreaseCount(productId) {
+      var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
+      if (productCount > 1) {
+        sessionStorage.setItem('product_' + productId, productCount - 1);
+      } else {
+        sessionStorage.removeItem('product_' + productId);
+      }
+      updateProductDisplay(productId);
+    }
+
+    function increaseCount(productId) {
+      var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
+      sessionStorage.setItem('product_' + productId, productCount + 1);
+      updateProductDisplay(productId);
+    }
+
+    function updateProductDisplay(productId) {
+      var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
+      var productDiv = document.getElementById('product-' + productId);
+      if (productCount === 0) {
+        productDiv.innerHTML = `
+            <button onclick="addToCart(${productId})">{% trans 'Add to Cart' %}</button>
+        `;
+      } else {
+        productDiv.innerHTML = `
+            <button onclick="decreaseCount(${productId})" type="button" class="count-buttons">-</button>
+            <span id="prod-${productId}">${productCount}</span>
+            <button onclick="increaseCount(${productId})" type="button" class="count-buttons">+</button>
+        `;
+      }
+    }
+  </script>
+  <div class="row">
+    <button onclick="goBack()">Back</button>
+    <button onclick="updateMainButton()">Update</button>
+    <h2>{{ category.name }}</h2>
+  </div>
+  <ul class="category-list">
+    {% for product in products %}
+      <li data-product-id="{{ product.id }}">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100" height="100">
+        {% else %}
+          <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="100" height="100">
+        {% endif %}
+        {{ product.name }} - {{ product.price }}
+        <div id="product-{{ product.id }}">
+          <button onclick="addToCart({{ product.id }})">Add to Cart</button>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Loop through each product and update its display
+      var products = document.querySelectorAll('.category-list li');
+      console.log(products);
+      products.forEach(function (product) {
+        var productId = product.getAttribute('data-product-id');
+        console.log(productId)
+        updateProductDisplay(productId);
+      });
+    });
+  </script>
+{% endblock %}

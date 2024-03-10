@@ -1,0 +1,76 @@
+:root {
+  --background-color: #ffffff; /* Default light mode background color */
+  --text-color: #000000; /* Default light mode text color */
+}
+a {
+  color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  a {
+    color: white;
+  }
+
+  :root {
+    --background-color: #1f1f1f; /* Dark mode background color */
+    --text-color: #ffffff; /* Dark mode text color */
+  }
+
+}
+
+ul.category-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+ul.category-list li {
+  display: inline-block;
+  width: 50%; /* Two categories per row */
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
+ul.category-list li a {
+  text-decoration: none;
+}
+
+ul.category-list li img {
+  display: block;
+  margin: 0 auto;
+}
+
+.row {
+  display: block;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.row h2 {
+  text-align: center;
+  margin: 0; /* Remove default margin */
+}
+
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+}
+
+
+button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}

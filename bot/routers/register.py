@@ -22,13 +22,7 @@ async def on_start(message: types.Message, command: CommandObject, state: FSMCon
         promo = command.args
 
     if not user.language or not user.phone or not user.fullname:
-        hello_text = ("Вас приветствует бот сети супермаркетов Makro! Этот бот поможет "
-                      "Вам в регистрации промокодов для участия в розыгрыше. "
-                      "Для дальнейшей регистрации выберите пожалуйста язык.\n"
-                      "Makro supermarketlar tarmog'ining boti sizni qutlaydi! "
-                      "Ushbu bot sizga o'yinda ishtirok etish uchun "
-                      "promokodlarni ro'yxatdan o'tkazishda yordam beradi. "
-                      "Ro'yxatdan o'tish uchun tilni tanlang.")
+        hello_text = str(_("Salom"))
 
         await message.answer(hello_text, reply_markup=language_kb())
         await state.set_state(Registration.language)
