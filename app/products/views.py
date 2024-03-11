@@ -8,7 +8,6 @@ from django.utils.translation import activate
 def category_list(request):
     categories = Category.objects.all()
     language = request.GET.get('lang', 'uz')
-    print(language)
     activate(language)
     return render(request, 'products/category_list.html', {'categories': categories})
 

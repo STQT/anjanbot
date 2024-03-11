@@ -91,6 +91,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "app.users",
     "app.products",
+    "app.address",
     "bot",
 
     # Your stuff: custom apps go here

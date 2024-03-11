@@ -74,16 +74,37 @@
 
 <script>
   // Sample outlet data
-  const outletBranches = [
-    {name: "Outlet 1", latitude: 40.730610, longitude: -73.935242},
-    {name: "Outlet 2", latitude: 40.741939, longitude: -73.989723},
-    {name: "Outlet 3", latitude: 40.748817, longitude: -73.985428}
-  ];
+  let outletBranches = [];
+  getOutletBranchesData()
+    .then(data => {
+      // Set the fetched data to the outletBranches variable
+      outletBranches = data.data;
+      // Log the outlet branches data
+      console.log(outletBranches);
+    })
+    .catch(error => {
+      // Handle errors if any
+      console.error('Error fetching outlet branches data:', error);
+    });
+
+  function getOutletBranchesData() {
+    const apiUrl = '/branches/' +
+      '?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}';
+    // Return the fetch Promise
+    return fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          alert("Server Error");
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      });
+  }
 
   // Sample address data (replace with actual API fetching)
   const addresses = [
     {id: 1, name: "Address 1", latitude: 40.730610, longitude: -73.935241},
-    {id: 2, name: "Address 2", latitude: 40.741939, longitude: -73.989723},
+    {id: 2, name: "Address 2", latitude: 40.841939, longitude: -73.989723},
     {id: 3, name: "Address 3", latitude: 40.748817, longitude: -73.985428}
   ];
 

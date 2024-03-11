@@ -20,6 +20,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path('send_telegram/<int:notification_id>', send_telegram, name="send_notification"),
     path("tg/", include("app.products.urls"), name="telegram"),
+    path("branches/", include("app.address.urls"), name="address"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
