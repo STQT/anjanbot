@@ -2,8 +2,11 @@ from aiogram import Router, types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _, activate
+
+from app.address.models import Address, Branch
 from app.users.models import TelegramUser as User
-from bot.utils.kbs import menu_keyboards_dict
+from bot.functions import get_location_name_async
+from bot.utils.kbs import menu_keyboards_dict, menu_kb
 
 router = Router()
 
@@ -15,6 +18,8 @@ async def echo_handler(message: types.Message, user: User) -> None:
 
     By default, message handler will handle all message types (like text, photo, sticker etc.)
     """
+
+    text = str(_("Bo'limni tanlang"))
     menu_text_list = [menu for emoji_list in menu_keyboards_dict.values() for menu in emoji_list]
     activate(user.language)
 
@@ -34,3 +39,28 @@ async def echo_handler(message: types.Message, user: User) -> None:
                     ]
                 ),
             )
+        elif message.text in ("🏠 Filiallar", "🏠 Филиалы"):
+            counter = 1
+            branches = Branch.objects.filter(is_active=True)
+            branches_text = str(_("🏡 Filiallar\n\n"))
+            async for filial in branches:
+                branches_text += str(counter) + ". " + filial.name + "\n"
+                counter += 1
+            await message.answer(branches_text)
+        elif message.text in ("🏡 Manzillarim", "🏡 Мои адреса"):
+            counter = 1
+            addresses = Address.objects.filter(user=user)
+            address_text = str(_("🏡 Manzillarim\n\n"))
+            async for address in addresses:
+                address_text += str(counter) + ". " + address.name + "\n"
+                counter += 1
+            await message.answer(address_text)
+    elif message.location:
+        name = await get_location_name_async(message.location.latitude, message.location.longitude)
+        await Address.objects.aupdate_or_create(
+            user=user, name=name, defaults={"longitude": message.location.longitude,
+                                            "latitude": message.location.latitude}
+        )
+        await message.answer(text, reply_markup=menu_kb(user.language))
+    else:
+        await message.answer(text, reply_markup=menu_kb(user.language))

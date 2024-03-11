@@ -5,3 +5,4 @@ class Registration(StatesGroup):
     language = State()
     fio = State()
     phone = State()
+    location = State()

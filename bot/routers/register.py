@@ -6,29 +6,23 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from django.utils.translation import gettext_lazy as _, activate
 from aiogram.types import KeyboardButton, ReplyKeyboardRemove
 
+from app.address.models import Address
 from bot.filters.states import Registration
 from app.users.models import TelegramUser as User
-from bot.functions import send_registered_message
 from bot.helpers import format_phone_number
-from bot.utils.kbs import contact_kb, language_kb, languages, menu_kb
+from bot.utils.kbs import contact_kb, language_kb, languages, menu_kb, location_kb
+from bot.functions import get_location_name_async
 
 router = Router()
 
 
 @router.message(Command("start"))
-async def on_start(message: types.Message, command: CommandObject, state: FSMContext, user: User):
-    promo = None
-    if command.args:
-        promo = command.args
+async def on_start(message: types.Message, state: FSMContext, user: User):
 
     if not user.language or not user.phone or not user.fullname:
         hello_text = str(_("Salom"))
-
         await message.answer(hello_text, reply_markup=language_kb())
         await state.set_state(Registration.language)
-        await state.set_data({"promo": promo})
-    elif promo is not None:
-        await send_registered_message(message, promo, user.language)
     else:
         await message.answer(str(_("Выберите раздел")), reply_markup=menu_kb(user.language))
 
@@ -62,7 +56,7 @@ async def registration_phone(message: types.Message, state: FSMContext, user: Us
 
 
 @router.message(Registration.phone)
-async def registration_finish(message: types.Message, state: FSMContext, user: User):
+async def registration_phone(message: types.Message, state: FSMContext, user: User):
     error_text = str(_("Неправильно указан номер телефона. \n"
                        "Пожалуйста, введите номер телефона в формате +998 хх ххх хх хх"))
     if message.contact:
@@ -86,13 +80,21 @@ async def registration_finish(message: types.Message, state: FSMContext, user: U
     else:
         await message.answer(error_text, reply_markup=contact_kb())
         return
-    data = await state.get_data()
-    promo = data.get("promo")
-    if promo is None:
+    await message.answer(
+        str(_("Locatsiyangizni yuboring")),
+        reply_markup=location_kb())
+    await state.set_state(Registration.location)
+
+
+@router.message(Registration.location)
+async def registration_finish(message: types.Message, state: FSMContext, user: User):
+    if message.location:
+        name = await get_location_name_async(message.location.latitude, message.location.longitude)
+        await Address.objects.acreate(user=user, name=name,
+                                      longitude=message.location.longitude, latitude=message.location.latitude)
+        await state.clear()
         await message.answer(
-            str(_(
-                "Вы успешно зарегистрировались на платформе! Отправьте промокод сюда, чтобы зарегистрировать его")),
+            str(_("Ro'yxatdan o'tdingiz")),
             reply_markup=menu_kb(user.language))
     else:
-        await send_registered_message(message, promo, user.language)
-    await state.clear()
+        await message.answer(str(_("Iltimos pastdagi tugmadan bizga o'z lokasiyangizni yuboring")))
