@@ -4,6 +4,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from django.utils.translation import activate
 
+from ..address.models import Address
+from ..users.models import TelegramUser
+
 
 def category_list(request):
     categories = Category.objects.all()
@@ -34,6 +37,33 @@ def get_product(request, product_id):
     return JsonResponse(data)
 
 
+def get_user(request, user_id):
+    user = get_object_or_404(TelegramUser, pk=user_id)
+    language = request.GET.get('lang', 'uz')
+    activate(language)
+
+    # Fetching the user's addresses
+    addresses = Address.objects.filter(user=user)
+
+    # Creating a list of address data
+    address_list = []
+    for address in addresses:
+        address_data = {
+            'id': address.pk,
+            'name': address.name,
+            'longitude': address.longitude,
+            'latitude': address.latitude,
+        }
+        address_list.append(address_data)
+
+    data = {
+        'id': user.pk,
+        'fullname': user.fullname,
+        'addresses': address_list,  # Adding addresses to the response
+    }
+    return JsonResponse(data)
+
+
 def cart(request):
     # Retrieve cart data from session storage
     language = request.GET.get('lang', 'uz')
@@ -41,3 +71,12 @@ def cart(request):
 
     # Pass cart data to the template
     return render(request, 'products/cart.html')
+
+
+def order(request):
+    # Retrieve cart data from session storage
+    language = request.GET.get('lang', 'uz')
+    activate(language)
+
+    # Pass cart data to the template
+    return render(request, 'products/order.html')

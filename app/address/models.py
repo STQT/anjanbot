@@ -1,9 +1,12 @@
 from ckeditor.fields import RichTextField
 from django.db import models
 
+from app.users.models import TelegramUser
+
 
 class Address(models.Model):
     name = models.CharField(max_length=255)
+    user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name="address")
     longitude = models.FloatField()
     latitude = models.FloatField()
 
