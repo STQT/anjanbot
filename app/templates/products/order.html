@@ -82,9 +82,7 @@
         delivery_cost: document.getElementById('deliveryCost').value,
         all_cost: document.getElementById('totalAmount').value,
         user: parseInt(user.id),
-        // Include other fields as necessary
       };
-      alert(JSON.stringify(formData));
       fetch('/create-order/', {
           method: 'POST',
           headers: {
@@ -100,19 +98,13 @@
           if (response.ok) {
             // Order created successfully, handle response as needed
             console.log('Order created successfully');
-            // Redirect to a success page or handle response appropriately
-            // window.location.href = '/success-page'; // Replace '/success-page' with your actual success page URL
+            // Telegram.WebApp.close()
           } else {
-            // Error handling if order creation fails
             console.error('Failed to create order');
-            // Handle error response appropriately
-            // You can display an error message to the user or perform other actions
           }
         })
         .catch(error => {
           console.error('Error creating order:', error);
-          // Handle error appropriately
-          // You can display an error message to the user or perform other actions
         });
 
 
