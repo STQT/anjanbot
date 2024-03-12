@@ -2,6 +2,10 @@ from datetime import datetime
 
 from django.db import models
 
+from app.address.models import Branch
+from app.users.models import TelegramUser
+from django.utils.translation import gettext_lazy as _
+
 
 def upload_path(instance, filename):
     today = datetime.now()
@@ -39,3 +43,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Order(models.Model):
+    class STATUS(models.TextChoices):
+        CREATED = ("created", _("Yaratildi"))
+        PROCEED = ("proceed", _("Ko'rib chiqildi"))
+
+    comment = models.TextField(blank=True, null=True)
+    cash_type = models.CharField(max_length=10)
+    delivery = models.CharField(max_length=3)
+    address = models.CharField(max_length=500, null=True, blank=True)
+    filial = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    distance = models.CharField(max_length=10, null=True, blank=True)
+    cost = models.CharField(max_length=10)
+    delivery_cost = models.CharField(max_length=10)
+    all_cost = models.CharField(max_length=10)
+    user = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS.choices, default=STATUS.CREATED)

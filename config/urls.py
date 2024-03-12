@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from app.products.views import create_order
 from app.users.views import send_telegram
 
 urlpatterns = [
@@ -21,6 +22,7 @@ urlpatterns = [
     path('send_telegram/<int:notification_id>', send_telegram, name="send_notification"),
     path("tg/", include("app.products.urls"), name="telegram"),
     path("branches/", include("app.address.urls"), name="address"),
+    path('create-order/', create_order, name='create_order'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

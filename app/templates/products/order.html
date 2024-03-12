@@ -6,69 +6,134 @@
   <script src="{% static 'js/project.js' %}"></script>
   <h2>{% trans "Ma'lumot" %}</h2>
   <div>
-  <div class="form-group">
-    <label for="comment"></label>
-    <textarea id="comment" name="comment" placeholder="Biron izoh yozing"></textarea>
-  </div>
+    <div class="form-group">
+      <label for="comment"></label>
+      <textarea id="comment" name="comment" placeholder="Biron izoh yozing"></textarea>
+    </div>
 
-  <div class="form-group">
-    <label for="cashType">To'lov usuli:</label>
-    <select id="cashType" name="cashType">
-      <option value="cash">Naqd</option>
-      <option value="card">Karta orqali</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="cashType">To'lov usuli:</label>
+      <select id="cashType" name="cashType">
+        <option value="cash">Naqd</option>
+        <option value="card">Karta orqali</option>
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label for="deliveryOption">Yetkazib beraylikmi?:</label>
-    <select id="deliveryOption" name="deliveryOption">
-      <option value="yes">{% trans "Xa" %}</option>
-      <option value="no">{% trans "Yo'q" %}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="deliveryOption">Yetkazib beraylikmi?:</label>
+      <select id="deliveryOption" name="deliveryOption">
+        <option value="yes">{% trans "Xa" %}</option>
+        <option value="no">{% trans "Yo'q" %}</option>
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label for="address">Manzil:</label>
-    <select id="address" name="address">
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="address">Manzil:</label>
+      <select id="address" name="address">
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label for="selectedAddress">Tanlangan manzil:</label>
-    <span id="selectedAddress"></span>
-  </div>
+    <div class="form-group">
+      <label for="selectedAddress">Tanlangan manzil:</label>
+      <span id="selectedAddress"></span>
+    </div>
 
-  <div class="form-group">
-    <label for="branch">Filial:</label>
-    <span id="branch"></span>
-  </div>
+    <div class="form-group">
+      <label for="branch">Filial:</label>
+      <span id="branch"></span>
+    </div>
 
-  <div class="form-group">
-    <label for="minDistance">Masofa:</label>
-    <span id="minDistance">Noma'lum</span>
-  </div>
+    <div class="form-group">
+      <label for="minDistance">Masofa:</label>
+      <span id="minDistance">Noma'lum</span>
+    </div>
 
-  <div class="form-group">
-    <label for="cost">Summa:</label>
-    <input type="number" id="cost" name="cost" value="0" readonly>
-  </div>
+    <div class="form-group">
+      <label for="cost">Summa:</label>
+      <input type="number" id="cost" name="cost" value="0" readonly>
+    </div>
 
-  <div class="form-group">
-    <label for="deliveryCost">Yetkazib berish:</label>
-    <input type="number" id="deliveryCost" name="deliveryCost" value="0" readonly>
-  </div>
+    <div class="form-group">
+      <label for="deliveryCost">Yetkazib berish:</label>
+      <input type="number" id="deliveryCost" name="deliveryCost" value="0" readonly>
+    </div>
 
-  <div class="form-group">
-    <label for="totalAmount">Umumiy hisob:</label>
-    <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
-  </div>
+    <div class="form-group">
+      <label for="totalAmount">Umumiy hisob:</label>
+      <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
+    </div>
   </div>
 
   <script>
     var user = Telegram.WebApp.initDataUnsafe.user;
-    alert(JSON.stringify(user));
+    var button = Telegram.WebApp.MainButton;
 
     let outletBranches = [];
+
+    function createOrder() {
+      const formData = {
+        comment: document.getElementById('comment').value,
+        cash_type: document.getElementById('cashType').value,
+        delivery: document.getElementById('deliveryOption').value,
+        address: document.getElementById('selectedAddress').innerText,
+        filial: parseInt(document.getElementById('branch').getAttribute('data')),
+        distance: document.getElementById('minDistance').value,
+        cost: document.getElementById('cost').value,
+        delivery_cost: document.getElementById('deliveryCost').value,
+        all_cost: document.getElementById('totalAmount').value,
+        user: parseInt(user.id),
+        // Include other fields as necessary
+      };
+      alert(JSON.stringify(formData));
+      fetch('/create-order/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any necessary headers
+          },
+
+          body: JSON.stringify(formData)
+
+        }
+      )
+        .then(response => {
+          if (response.ok) {
+            // Order created successfully, handle response as needed
+            console.log('Order created successfully');
+            // Redirect to a success page or handle response appropriately
+            // window.location.href = '/success-page'; // Replace '/success-page' with your actual success page URL
+          } else {
+            // Error handling if order creation fails
+            console.error('Failed to create order');
+            // Handle error response appropriately
+            // You can display an error message to the user or perform other actions
+          }
+        })
+        .catch(error => {
+          console.error('Error creating order:', error);
+          // Handle error appropriately
+          // You can display an error message to the user or perform other actions
+        });
+
+
+    }
+
+    function showButton() {
+      button.setParams({
+        text: '{% trans "Buyurtma berish" %}',
+        is_visible: true
+      }).onClick(function () {
+        //
+        createOrder();
+      });
+    }
+
+    function disableButton() {
+      button.setParams({
+        is_visible: false
+      });
+    }
+
     getOutletBranchesData()
       .then(data => {
         outletBranches = data.data;
@@ -132,8 +197,13 @@
           // Validate minimum distance
           if (minDistance > 100) {
             document.getElementById('branch').innerText = '{% trans "Xato: 100km atrofida filial mavjud emas." %}';
+            disableButton();
           } else {
+            const branchElement = document.getElementById('branch');
+            branchElement.setAttribute('data', closestOutlet.id);
+            branchElement.style.display = 'none';
             document.getElementById('branch').innerText = closestOutlet.name;
+            showButton();
           }
 
           // Update minimum distance label
@@ -152,6 +222,21 @@
       const deliveryOption = document.getElementById('deliveryOption').value;
       const deliveryCost = deliveryOption === 'yes' ? 1000 : 0; // Example delivery cost
       document.getElementById('deliveryCost').value = deliveryCost;
+
+      // document.getElementById('deliveryOption').addEventListener('change', function () {
+      //   const selectedOption = this.value;
+      //   const minDistance = parseFloat(document.getElementById('minDistance').innerText);
+      //   const selectedAddress = document.getElementById('selectedAddress').innerText;
+
+      //   if (selectedOption === 'no' || minDistance < 100 || selectedAddress !== '') {
+      //     console.log('Delivery option is "no" and minimum distance is less than 100');
+      //     // Add your logic here for when delivery option is "no" and minDistance is less than 100
+      //     showButton();
+      //   }
+      //   else {
+      //     disableButton();
+      //   }
+      // });
 
       // Calculate and update total amount
       const totalAmount = cost + deliveryCost;
