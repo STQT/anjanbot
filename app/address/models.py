@@ -23,6 +23,7 @@ class Branch(models.Model):
     description = RichTextField(max_length=1023, null=True, blank=True)
     longitude = models.FloatField()
     latitude = models.FloatField()
+    tg_id = models.CharField(verbose_name="Telegram gruppa ID", max_length=20, null=True, blank=True)
     is_active = models.BooleanField(verbose_name="Faolmi?", default=False)
 
     class Meta:

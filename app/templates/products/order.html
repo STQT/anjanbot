@@ -5,7 +5,7 @@
   <script src="{% static 'js/order.js' %}"></script>
   <script src="{% static 'js/project.js' %}"></script>
   <h2>{% trans "Ma'lumot" %}</h2>
-
+  <div>
   <div class="form-group">
     <label for="comment"></label>
     <textarea id="comment" name="comment" placeholder="Biron izoh yozing"></textarea>
@@ -61,6 +61,7 @@
   <div class="form-group">
     <label for="totalAmount">Umumiy hisob:</label>
     <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
+  </div>
   </div>
 
   <script>
@@ -130,7 +131,7 @@
 
           // Validate minimum distance
           if (minDistance > 100) {
-            document.getElementById('branch').innerText = "Error: No branch within 100 km.";
+            document.getElementById('branch').innerText = {% trans "Xato: 100km atrofida filial mavjud emas." %};
           } else {
             document.getElementById('branch').innerText = closestOutlet.name;
           }
