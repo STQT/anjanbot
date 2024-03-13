@@ -17,7 +17,8 @@ class ProductAdmin(TabbedTranslationAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['filial', 'address', 'user_phone', 'all_cost', 'delivery']
+    list_display = ['filial', 'address', 'user_phone', 'all_cost', 'delivery', "status"]
+    list_display_links = ['filial', 'address', 'user_phone']
 
     def user_phone(self, obj):
         return obj.user.phone if obj.user else None

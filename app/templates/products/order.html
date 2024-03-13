@@ -14,8 +14,8 @@
     <div class="form-group">
       <label for="cashType">To'lov usuli:</label>
       <select id="cashType" name="cashType">
-        <option value="cash">Naqd</option>
-        <option value="card">Karta orqali</option>
+        <option value="payme">Payme</option>
+        <option value="click">Click</option>
       </select>
     </div>
 
@@ -214,6 +214,8 @@
       const deliveryOption = document.getElementById('deliveryOption').value;
       const deliveryCost = deliveryOption === 'yes' ? 1000 : 0; // Example delivery cost
       document.getElementById('deliveryCost').value = deliveryCost;
+      const totalAmount = cost + deliveryCost;
+      document.getElementById('totalAmount').value = totalAmount;
 
       // document.getElementById('deliveryOption').addEventListener('change', function () {
       //   const selectedOption = this.value;
@@ -231,8 +233,7 @@
       // });
 
       // Calculate and update total amount
-      const totalAmount = cost + deliveryCost;
-      document.getElementById('totalAmount').value = totalAmount;
+
 
     }).catch(error => {
       console.error('Error fetching address branches data:', error);

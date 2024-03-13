@@ -49,9 +49,14 @@ class Order(models.Model):
     class STATUS(models.TextChoices):
         CREATED = ("created", _("Yaratildi"))
         PROCEED = ("proceed", _("Ko'rib chiqildi"))
+        PAID = ("paid", _("To'landi"))
+
+    class CashTYPE(models.TextChoices):
+        CLICK = ("click", _("Click"))
+        PAYME = ("payme", _("Payme"))
 
     comment = models.TextField(blank=True, null=True)
-    cash_type = models.CharField(max_length=10)
+    cash_type = models.CharField(max_length=10, choices=CashTYPE.choices, default=CashTYPE.PAYME)
     delivery = models.CharField(max_length=3)
     address = models.CharField(max_length=500, null=True, blank=True)
     filial = models.ForeignKey(Branch, on_delete=models.CASCADE)
@@ -61,3 +66,4 @@ class Order(models.Model):
     all_cost = models.CharField(max_length=10)
     user = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS.choices, default=STATUS.CREATED)
+    charge_id = models.CharField(max_length=50, null=True, blank=True)
