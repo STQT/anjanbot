@@ -5,6 +5,7 @@ from django.db import models
 from app.address.models import Branch
 from app.users.models import TelegramUser
 from django.utils.translation import gettext_lazy as _
+from imagekit.models.fields import ImageSpecField, ProcessedImageField
 
 
 def upload_path(instance, filename):
@@ -19,7 +20,9 @@ def upload_path(instance, filename):
 
 class Category(models.Model):
     name = models.CharField(verbose_name="Nomi", max_length=100)
-    image = models.ImageField(verbose_name="Rasmi", upload_to=upload_path, null=True, blank=True)
+    image = ProcessedImageField(verbose_name="Rasmi", upload_to=upload_path,
+                                format='JPEG',
+                                options={'quality': 60}, null=True, blank=True)
     is_active = models.BooleanField(verbose_name="Активный?", default=False)
 
     class Meta:
@@ -34,7 +37,9 @@ class Product(models.Model):
     name = models.CharField(verbose_name="Nomi", max_length=100)
     price = models.IntegerField(verbose_name="Narxi")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
-    image = models.ImageField(verbose_name="Rasmi", upload_to=upload_path, null=True, blank=True)
+    image = ProcessedImageField(verbose_name="Rasmi", upload_to=upload_path,
+                                format='JPEG',
+                                options={'quality': 60}, null=True, blank=True)
     is_active = models.BooleanField(verbose_name="Активный?", default=False)
 
     class Meta:
