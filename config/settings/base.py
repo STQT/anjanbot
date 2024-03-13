@@ -384,3 +384,5 @@ CKEDITOR_CONFIGS = {
         ]
     }
 }
+CLICK = env("CLICK")
+PAYME = env("PAYME")

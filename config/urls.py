@@ -13,7 +13,7 @@ from app.users.views import send_telegram
 
 urlpatterns = [
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    path("", TemplateView.as_view(template_name="products/order.html"), name="home"),
+    # path("", TemplateView.as_view(template_name="products/order.html"), name="home"),
     path('bot/', include('bot.urls')),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     # Django Admin, use {% url 'admin:index' %}

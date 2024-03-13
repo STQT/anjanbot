@@ -1,4 +1,5 @@
 from aiogram.types import LabeledPrice
+from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from asgiref.sync import async_to_sync
@@ -6,8 +7,8 @@ from asgiref.sync import async_to_sync
 from app.products.models import Order
 from bot.misc import bot
 
-CLICK = "398062629:TEST:999999999_F91D8F69C042267444B74CC0B3C747757EB0E065"
-PAYME = "371317599:TEST:1710287106018"
+CLICK = settings.CLICK
+PAYME = settings.PAYME
 CLICK_PHOTO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgWGCXrpS2g54YYm0eTzAHHFzY7Kj3ZXEcbg&usqp=CAU"
 PAYME_PHOTO = "https://synthesis.uz/wp-content/uploads/2022/01/payme-1920x1080-1.jpg"
 
