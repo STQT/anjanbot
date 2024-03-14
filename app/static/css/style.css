@@ -48,9 +48,33 @@ ul.category-list li a {
 }
 
 ul.category-list li img {
-  display: block;
+  display: inline-block;
   margin: 0 auto;
+  border-radius: 7px;
+  position: relative;
 }
+
+ul.category-list li .overlay-button {
+  display: inline-block;
+  position: relative;
+  top: -50px;
+  z-index: 1; /* Убедитесь, что кнопка находится выше изображения */
+  background: rgba(255, 255, 255, 0.9);
+  width: 168px;
+  height: 47px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  text-align: center;
+}
+
+ul.category-list li .overlay-button div {
+  margin: 10px;
+  max-width: 100%; /* Ensure text wraps within the container */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
 
 .row {
   display: flex;
@@ -83,27 +107,44 @@ button:hover {
 .header {
   display: flex;
   align-items: center;
+  padding: 10px;
 }
 
-.left-column,
-.center-column,
-.right-column {
-  flex-grow: 1;
-  text-align: left;
+.center-column {
+  flex: 9;
+  text-align: center;
+  background-color: #F4F4F4CC;
+  border-radius: 7px;
+  margin: 10px;
+
 }
+
+.left-column img {
+  height: 100%;
+}
+
+h2 {
+  flex: 1;
+  text-align: center;
+  background-color: #F4F4F4CC;
+  border-radius: 7px;
+}
+
 
 .left-column {
-  text-align: left;
-  width: 20%;
+  text-align: center;
+  height: 65px;
+  flex: 1;
+  background-color: #F4F4F4CC;
+  border-radius: 7px;
 }
 
-.right-column {
-  text-align: left;
-  width: 10px;
-}
+.back {
+  /* Vector */
 
-.back-button {
-  /* Style your back button here */
+  width: 18px;
+  height: 15px;
+  border: 2px
 }
 
 
@@ -188,4 +229,3 @@ span {
   display: table;
   clear: both;
 }
-

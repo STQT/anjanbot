@@ -1,9 +1,9 @@
-function addToCart(productId) {
-    var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || 0;
-
-    getProductData(productId) // Fetch product data
+function addToCart(productId, productName) {
+    var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || null;
+    console.log(productCount);
+    getProductData(productId, productName) // Fetch product data
         .then(productData => {
-            if (productCount === 0) {
+            if (productCount === null) {
                 sessionStorage.setItem('product_' + productId, JSON.stringify(productData));
             } else {
                 var updatedProduct = JSON.parse(sessionStorage.getItem('product_' + productId));
@@ -11,7 +11,7 @@ function addToCart(productId) {
                 sessionStorage.setItem('product_' + productId, JSON.stringify(updatedProduct));
             }
             updateMainButton();
-            updateProductDisplay(productId);
+            updateProductDisplay(productId, productName);
         })
         .catch(error => {
             // Handle any errors that occurred during the fetch operation
@@ -20,7 +20,7 @@ function addToCart(productId) {
 }
 
 
-function decreaseCount(productId) {
+function decreaseCount(productId, productName) {
     var product = JSON.parse(sessionStorage.getItem('product_' + productId));
     if (product.count > 1) {
         product.count -= 1;
@@ -29,15 +29,15 @@ function decreaseCount(productId) {
         sessionStorage.removeItem('product_' + productId);
     }
     updateMainButton();
-    updateProductDisplay(productId);
+    updateProductDisplay(productId, productName);
 }
 
-function increaseCount(productId) {
-    var product = JSON.parse(sessionStorage.getItem('product_' + productId));
+function increaseCount(productId, productName) {
+    var product = JSON.parse(sessionStorage.getItem('product_' + productId)) || {'count': 1};
     product.count += 1;
     sessionStorage.setItem('product_' + productId, JSON.stringify(product));
     updateMainButton();
-    updateProductDisplay(productId);
+    updateProductDisplay(productId, productName);
 }
 
 function getCartItemCount() {

@@ -2,25 +2,21 @@
 {% load static i18n %}
 {% block title %}Category List{% endblock %}
 {% block content %}
+
   <div class="header">
-    <div class="left-column">
-    </div>
     <div class="center-column">
       <h2>{% trans "Menyu" %}</h2>
     </div>
-    <div class="right-column"></div> <!-- Empty column -->
   </div>
   <ul class="category-list">
     {% for category in categories %}
-      <li>
-        <div class="link" onclick="redirectTo('{{ category.id }}')">
+      <li onclick="redirectTo('{{ category.id }}')">
           {% if category.image %}
-            <img src="{{ category.image.url }}" alt="{{ category.name }}" width="100" height="100">
+            <img src="{{ category.image.url }}" alt="{{ category.name }}" width="168px" height="168px">
           {% else %}
-            <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="100" height="100">
+            <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px">
           {% endif %}
-          {{ category.name }}
-        </div>
+          <div class="overlay-button">{{ category.name }}</div>
       </li>
     {% endfor %}
   </ul>
