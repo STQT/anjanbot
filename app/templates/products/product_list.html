@@ -18,13 +18,13 @@
       var productDiv = document.getElementById('prod-' + productId);
       if (productCount === 0) {
         productDiv.innerHTML = `
-            <div onclick="addToCart(${productId}, '${productName}')">${productName}</div>
+            <div onclick="addToCart(${productId}, '${productName.replace(/"/g, '\\"')}')">${productName}</div>
         `;
       } else {
         productDiv.innerHTML = `
-            <button onclick="decreaseCount(${productId}, '${productName}')" type="button" class="count-buttons">-</button>
+            <button onclick="decreaseCount(${productId}, '${productName.replace(/"/g, '\\"')}')" type="button" class="count-buttons">-</button>
             <span id="prod-${productId}">${productCount}</span>
-            <button onclick="increaseCount(${productId}, '${productName}')" type="button" class="count-buttons">+</button>
+            <button onclick="increaseCount(${productId}, '${productName.replace(/"/g, '\\"')}')" type="button" class="count-buttons">+</button>
         `;
       }
     }
