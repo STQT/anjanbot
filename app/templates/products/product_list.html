@@ -22,9 +22,9 @@
         `;
       } else {
         productDiv.innerHTML = `
-            <button onclick="decreaseCount(${productId}, '${productName}')" type="button" class="count-buttons">-</button>
+            <div onclick="decreaseCount(${productId}, '${productName}')" type="button" class="count-buttons">-</div>
             <span id="prod-${productId}">${productCount}</span>
-            <button onclick="increaseCount(${productId}, '${productName}')" type="button" class="count-buttons">+</button>
+            <div onclick="increaseCount(${productId}, '${productName}')" type="button" class="count-buttons">+</div>
         `;
       }
     }

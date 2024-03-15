@@ -13,11 +13,23 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   function setThemeClass() {
-    document.documentElement.className = Telegram.WebApp.colorScheme;
+    document.documentElement.className = 'dark'; // Telegram.WebApp.colorScheme;
   }
-
+  console.log(Telegram.WebApp.colorScheme);
   Telegram.WebApp.onEvent('themeChanged', setThemeClass);
   setThemeClass();
+  var l = window.Telegram.WebApp.SettingsButton
+  l.isVisible = true;
+  Telegram.WebApp.onEvent('settingsButtonClicked', function () {
+    toggleDarkMode();
+  });
+
+  function toggleDarkMode() {
+    const body = document.body;
+    // Toggle dark mode class on the body
+    body.classList.toggle('dark-mode');
+  }
+
 </script>
 <main>
   {% block content %}{% endblock %}

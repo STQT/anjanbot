@@ -1,22 +1,26 @@
 :root {
-  --background-color: #ffffff; /* Default light mode background color */
-  --text-color: #000000; /* Default light mode text color */
+  --light-background-color: #ffffff; /* Default light mode background color */
+  --light-text-color: #000000; /* Default light mode text color */
+  --light-second-color: #F6F6F6; /* Default light mode text color */
+  --dark-background-color: #1f1f1f; /* Dark mode background color */
+  --dark-second-color: #282828E5; /* Dark mode background color */
+  --dark-text-color: #ffffff; /* Dark mode text color */
+  --background-color: var(--light-background-color); /* Default to light mode background color */
+  --text-color: var(--light-text-color); /* Default to light mode text color */
+  --second-color: var(--light-second-color); /* Default to light mode text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Define styles for dark mode */
+.dark-mode {
+  --background-color: var(--dark-background-color);
+  --text-color: var(--dark-text-color);
+  --second-color: var(--dark-second-color);
 }
 
 a {
-  color: black;
-}
-
-@media (prefers-color-scheme: dark) {
-  a {
-    color: white;
-  }
-
-  :root {
-    --background-color: #1f1f1f; /* Dark mode background color */
-    --text-color: #ffffff; /* Dark mode text color */
-  }
-
+  color: var(--text-color);
 }
 
 ul.category-list {
@@ -59,13 +63,14 @@ ul.category-list li .overlay-button {
   position: relative;
   top: -50px;
   z-index: 1; /* Убедитесь, что кнопка находится выше изображения */
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--second-color);
   width: 168px;
   height: 47px;
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
   text-align: center;
 }
+
 
 ul.category-list li .overlay-button div {
   margin: 10px;
@@ -113,7 +118,7 @@ button:hover {
 .center-column {
   flex: 9;
   text-align: center;
-  background-color: #F4F4F4CC;
+  background-color: var(--second-color);
   border-radius: 7px;
   margin: 10px;
 
@@ -126,8 +131,9 @@ button:hover {
 h2 {
   flex: 1;
   text-align: center;
-  background-color: #F4F4F4CC;
+  color: var(--text-color);
   border-radius: 7px;
+  background-color: transparent;
 }
 
 
@@ -229,3 +235,4 @@ span {
   display: table;
   clear: both;
 }
+

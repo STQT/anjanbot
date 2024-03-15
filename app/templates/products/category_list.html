@@ -11,12 +11,12 @@
   <ul class="category-list">
     {% for category in categories %}
       <li onclick="redirectTo('{{ category.id }}')">
-          {% if category.image %}
-            <img src="{{ category.image.url }}" alt="{{ category.name }}" width="168px" height="168px">
-          {% else %}
-            <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px">
-          {% endif %}
-          <div class="overlay-button">{{ category.name }}</div>
+        {% if category.image %}
+          <img src="{{ category.image.url }}" alt="{{ category.name }}" width="168px" height="168px">
+        {% else %}
+          <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px">
+        {% endif %}
+        <div class="overlay-button">{{ category.name }}</div>
       </li>
     {% endfor %}
   </ul>
@@ -32,5 +32,6 @@
       // url += 'categoryId=' + categoryId; // Append category id or any other parameter you want
       window.location.href = url;
     }
+
   </script>
 {% endblock %}

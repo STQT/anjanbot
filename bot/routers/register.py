@@ -20,7 +20,8 @@ router = Router()
 async def on_start(message: types.Message, state: FSMContext, user: User):
 
     if not user.language or not user.phone or not user.fullname:
-        hello_text = str(_("Salom"))
+        hello_text = ("Salom, Anjan botga xush kelibsiz!\nTilni tanlang!"
+                      "Привет, добро пожаловать в Anjan bot!\nВыберите язык!")
         await message.answer(hello_text, reply_markup=language_kb())
         await state.set_state(Registration.language)
     else:
@@ -35,9 +36,7 @@ async def registration_language(message: types.Message, state: FSMContext, user:
         activate(lang)
         await user.asave()
         await state.set_state(Registration.fio)
-        await message.answer(str(_("Пожалуйста, введите свое имя и фамилию.\n"
-                                   "❗️Обращаем Ваше внимание – имя и фамилия должны соответствовать "
-                                   "удостоверению вашей личности.")),
+        await message.answer(str(_("Пожалуйста, введите свое имя и фамилию.")),
                              reply_markup=ReplyKeyboardRemove())
     else:
         await message.answer(str(_("Неправильная команда")))
@@ -49,8 +48,7 @@ async def registration_phone(message: types.Message, state: FSMContext, user: Us
     await user.asave()
     markup = ReplyKeyboardBuilder()
     markup.add(KeyboardButton(text=str(_("Отправить телефон")), request_contact=True))
-    await message.answer(str(_("Введите Ваш контактный номер телефона регистрации промо-кода. "
-                               "В случае выигрыша приза, мы будем связываться с Вами по указанному номеру телефона.")),
+    await message.answer(str(_("Введите Ваш контактный номер телефона.")),
                          reply_markup=contact_kb())
     await state.set_state(Registration.phone)
 
@@ -81,7 +79,7 @@ async def registration_phone(message: types.Message, state: FSMContext, user: Us
         await message.answer(error_text, reply_markup=contact_kb())
         return
     await message.answer(
-        str(_("Locatsiyangizni yuboring")),
+        str(_("Lokasiyangizni yuboring")),
         reply_markup=location_kb())
     await state.set_state(Registration.location)
 
