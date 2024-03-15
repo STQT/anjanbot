@@ -34,7 +34,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(verbose_name="Nomi", max_length=100)
+    name = models.CharField(verbose_name="Nomi", max_length=150)
     price = models.IntegerField(verbose_name="Narxi")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
     image = ProcessedImageField(verbose_name="Rasmi", upload_to=upload_path,
