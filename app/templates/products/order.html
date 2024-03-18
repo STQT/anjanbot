@@ -27,12 +27,9 @@
       <label for="address">Manzil:</label>
       <select id="address" name="address">
       </select>
+      <input type="hidden" id="selectedAddress" name="selectedAddress" value="yes">
     </div>
 
-    <div class="form-group">
-      <label for="selectedAddress">Tanlangan manzil:</label>
-      <span id="selectedAddress"></span>
-    </div>
 
     <div class="form-group">
       <label for="branch">Filial:</label>
@@ -44,18 +41,19 @@
       <span id="minDistance">Noma'lum</span>
     </div>
 
-    <div class="form-group">
-      <label for="cost">Summa:</label>
-      <input type="number" id="cost" name="cost" value="0" readonly>
-    </div>
 
     <div class="form-group">
-      <label for="deliveryCost">Yetkazib berish:</label>
+      <label for="deliveryCost">{% trans 'Yetkazib berish:' %}</label>
       <input type="number" id="deliveryCost" name="deliveryCost" value="0" readonly>
     </div>
 
     <div class="form-group">
-      <label for="totalAmount">Jami:</label>
+      <label for="cost">{% trans 'Narxi:' %}</label>
+      <input type="number" id="cost" name="cost" value="0" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="totalAmount">{% trans 'Jami:' %}</label>
       <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
     </div>
   </div>
@@ -99,8 +97,8 @@
     });
 
 
-    var user = Telegram.WebApp.initDataUnsafe.user;
-    // var user = {"id": 6201336345};
+    //var user = Telegram.WebApp.initDataUnsafe.user;
+    var user = {"id": 6201336345};
     var button = Telegram.WebApp.MainButton;
 
     let outletBranches = [];
@@ -227,7 +225,6 @@
           } else {
             const branchElement = document.getElementById('branch');
             branchElement.setAttribute('data', closestOutlet.id);
-            branchElement.style.display = 'none';
             document.getElementById('branch').innerText = closestOutlet.name;
             showButton();
           }
