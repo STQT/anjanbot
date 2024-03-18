@@ -10,17 +10,17 @@
   </div>
   <div>
     <div class="form-group">
-      <button type="button" class="cash-button" value="payme">Payme</button>
+      <button type="button" class="cash-button active" value="payme">Payme</button>
       <button type="button" class="cash-button" value="click">Click</button>
-      <input type="hidden" id="cashType" name="cashType" value="payme"> <!-- Hidden input to store the selected value -->
+      <input type="hidden" id="cashType" name="cashType" value="payme">
+      <!-- Hidden input to store the selected value -->
     </div>
 
     <div class="form-group">
-      <label for="deliveryOption">Yetkazib beraylikmi?:</label>
-      <select id="deliveryOption" name="deliveryOption">
-        <option value="yes">{% trans "Xa" %}</option>
-        <option value="no">{% trans "Yo'q" %}</option>
-      </select>
+      <button type="button" class="delivery-button active" value="yes">{% trans "Yetkazib berish" %}</button>
+      <button type="button" class="delivery-button" value="no">{% trans "Borib olish" %}</button>
+      <input type="hidden" id="deliveryOption" name="deliveryOption" value="yes">
+      <!-- Hidden input to store the selected value -->
     </div>
 
     <div class="form-group">
@@ -61,7 +61,46 @@
   </div>
 
   <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var cashButtons = document.querySelectorAll(".cash-button");
+      var deliveryButtons = document.querySelectorAll(".delivery-button");
+
+      cashButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          // Remove active class from all buttons
+          cashButtons.forEach(function (btn) {
+            btn.classList.remove("active");
+          });
+
+          // Add active class to the clicked button
+          this.classList.add("active");
+
+          var selectedValue = this.value;
+          var cashTypeInput = document.getElementById("cashType");
+          cashTypeInput.value = selectedValue;
+        });
+      });
+      deliveryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          // Remove active class from all buttons
+          deliveryButtons.forEach(function (btn) {
+            btn.classList.remove("active");
+          });
+
+          // Add active class to the clicked button
+          this.classList.add("active");
+
+          var selectedValue = this.value;
+          var deliveryTypeInput = document.getElementById("deliveryOption");
+          deliveryTypeInput.value = selectedValue;
+        });
+      });
+    });
+
+
     var user = Telegram.WebApp.initDataUnsafe.user;
+    // var user = {"id": 6201336345};
     var button = Telegram.WebApp.MainButton;
 
     let outletBranches = [];
