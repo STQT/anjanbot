@@ -83,6 +83,7 @@
           <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px"
                onclick="addToCart({{ product.id }},'{{ product.name }}')">
         {% endif %}
+        <div class="overlay-price"><div class="price">18000</div></div>
         <div class="overlay-button" id="prod-{{ product.id }}"></div>
       </li>
     {% endfor %}

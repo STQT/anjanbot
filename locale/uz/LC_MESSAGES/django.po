@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-18 07:28+0500\n"
+"POT-Creation-Date: 2024-03-18 07:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -456,11 +456,11 @@ msgstr ""
 msgid "Bo'limni tanlang"
 msgstr "Выберите раздел"
 
-#: bot/routers/echo.py:24
+#: bot/routers/echo.py:25
 msgid "Buyurtma berish uchun quyidagi tugmani bosing"
 msgstr "Чтобы заказать товар нажмите на кнопку ниже"
 
-#: bot/routers/echo.py:39
+#: bot/routers/echo.py:40
 msgid ""
 "🏡 Filiallar\n"
 "\n"
@@ -468,7 +468,7 @@ msgstr ""
 "🏡 Филиалы\n"
 "\n"
 
-#: bot/routers/echo.py:47
+#: bot/routers/echo.py:48
 msgid ""
 "🏡 Manzillarim\n"
 "\n"

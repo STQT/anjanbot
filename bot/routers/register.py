@@ -19,7 +19,7 @@ router = Router()
 @router.message(Command("start"))
 async def on_start(message: types.Message, state: FSMContext, user: User):
     if not user.language or not user.phone or not user.fullname:
-        hello_text = ("Salom, Anjan botga xush kelibsiz!\nTilni tanlang!"
+        hello_text = ("Salom, Anjan botga xush kelibsiz!\nTilni tanlang!\n\n"
                       "Привет, добро пожаловать в Anjan bot!\nВыберите язык!")
         await message.answer(hello_text, reply_markup=language_kb())
         await state.set_state(Registration.language)

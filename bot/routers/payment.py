@@ -15,6 +15,33 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
         order.status = order.STATUS.PAID
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
+        success_text = str(_("<b>Yangi buyurtma:</b>"
+                             "Comment: { comment }"
+                             "Cash Type: { cash_type }"
+                             "Delivery: { delivery }"
+                             "Address: { address }"
+                             "Filial: { filial }"
+                             "Distance: { distance }"
+                             "Cost: { cost }"
+                             "Delivery Cost: { delivery_cost }"
+                             "Total Cost: { all_cost }"
+                             "User: { user }"
+                             "Status: { status }"
+                             "Charge ID: { charge_id }")).format(
+            comment=order.comment,
+            cash_type=order.get_cash_type_display(),
+            delivery=order.delivery,
+            address=order.address,
+            filial=order.filial.name,  # Assuming Branch model has a 'name' field
+            distance=order.distance,
+            cost=order.cost,
+            delivery_cost=order.delivery_cost,
+            all_cost=order.all_cost,
+            user=order.user.username if order.user else None,  # Assuming TelegramUser has a 'username' field
+            status=order.get_status_display(),
+            charge_id=order.charge_id,
+        )
+        await message.bot.send_message(390736292, success_text)
     except Order.DoesNotExist:
         ...
 

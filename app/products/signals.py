@@ -23,7 +23,7 @@ def send_new_user_notification(sender, instance, created, **kwargs):
         invoice_data = {
             "chat_id": instance.user_id,
             "photo_url": CLICK_PHOTO if instance.cash_type == Order.CashTYPE.CLICK else PAYME_PHOTO,
-            "currency": "uzs" if instance.cash_type == Order.CashTYPE.CLICK else 'rub',  # TODO: need to change after
+            "currency": "uzs",  # TODO: need to change after
             "title": "Anjan",
             "description": "Muzqaymoqlar haridi",
             "payload": str(instance.pk),

@@ -16,7 +16,7 @@
         {% else %}
           <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px">
         {% endif %}
-        <div class="overlay-button">{{ category.name }}</div>
+        <div class="overlay-button"><div>{{ category.name }}</div></div>
       </li>
     {% endfor %}
   </ul>
