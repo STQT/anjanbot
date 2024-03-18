@@ -214,6 +214,22 @@ h2 {
   margin-bottom: 20px;
 }
 
+.cash-button {
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: transparent;
+  color: #000;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.cash-button:hover {
+  background-color: blue;
+  color: #fff;
+}
+
+
 /* Adjust label styles */
 label {
   display: block;

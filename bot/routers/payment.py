@@ -16,7 +16,6 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
         success_text = str(_("<b>Yangi buyurtma:</b>"
-                             "Comment: { comment }"
                              "Cash Type: { cash_type }"
                              "Delivery: { delivery }"
                              "Address: { address }"
