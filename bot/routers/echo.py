@@ -17,7 +17,7 @@ async def echo_handler(message: types.Message, user: User) -> None:
     menu_text_list = [menu for emoji_list in menu_keyboards_dict.values() for menu in emoji_list]
     activate(user.language)
 
-    if message.text in menu_text_list:
+    if message.text and message.text in menu_text_list:
         if message.text in ("🍟 Заказать", "🍟 Buyurtma berish"):
             url = settings.HOST + "/tg/?lang=" + user.language
             await message.answer(

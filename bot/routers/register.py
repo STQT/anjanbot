@@ -18,7 +18,6 @@ router = Router()
 
 @router.message(Command("start"))
 async def on_start(message: types.Message, state: FSMContext, user: User):
-
     if not user.language or not user.phone or not user.fullname:
         hello_text = ("Salom, Anjan botga xush kelibsiz!\nTilni tanlang!"
                       "Привет, добро пожаловать в Anjan bot!\nВыберите язык!")
@@ -36,10 +35,10 @@ async def registration_language(message: types.Message, state: FSMContext, user:
         activate(lang)
         await user.asave()
         await state.set_state(Registration.fio)
-        await message.answer(str(_("Пожалуйста, введите свое имя и фамилию.")),
+        await message.answer(str(_("Iltimos, ism sharifingizni yozing")),
                              reply_markup=ReplyKeyboardRemove())
     else:
-        await message.answer(str(_("Неправильная команда")))
+        await message.answer(str(_("Noto'g'ri buyruq")))
 
 
 @router.message(Registration.fio)
@@ -47,22 +46,21 @@ async def registration_phone(message: types.Message, state: FSMContext, user: Us
     user.fullname = message.text
     await user.asave()
     markup = ReplyKeyboardBuilder()
-    markup.add(KeyboardButton(text=str(_("Отправить телефон")), request_contact=True))
-    await message.answer(str(_("Введите Ваш контактный номер телефона.")),
+    markup.add(KeyboardButton(text=str(_("Raqamni yuborish")), request_contact=True))  # Отправить телефон
+    await message.answer(str(_("O'zingizni telefon raqamingizni yuboring")),
                          reply_markup=contact_kb())
     await state.set_state(Registration.phone)
 
 
 @router.message(Registration.phone)
 async def registration_phone(message: types.Message, state: FSMContext, user: User):
-    error_text = str(_("Неправильно указан номер телефона. \n"
-                       "Пожалуйста, введите номер телефона в формате +998 хх ххх хх хх"))
+    error_text = str(_("Telefon raqam noto'g'ri ko'rsatildi\n"
+                       "Iltimos, telefon raqamni ko'rsatilgan formatda yozing: +998 хх ххх хх хх"))
     if message.contact:
         user.phone = message.contact.phone_number
         await user.asave()
     elif message.text:
         formatted_phone = format_phone_number(message.text)
-
         if len(formatted_phone) == 13:
             parsed_number = phonenumbers.parse(formatted_phone)
             is_valid = phonenumbers.is_valid_number(parsed_number)

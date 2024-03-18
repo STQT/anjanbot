@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-10 18:48+0500\n"
+"POT-Creation-Date: 2024-03-18 06:43+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,64 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app/promotions/admin.py:18
-msgid "Основная информация"
+#: app/products/models.py:55
+msgid "Yaratildi"
 msgstr ""
 
-#: app/promotions/admin.py:21
-msgid "Даты проведения"
+#: app/products/models.py:56
+msgid "Ko'rib chiqildi"
 msgstr ""
 
-#: app/promotions/models.py:8
-msgid "Название"
+#: app/products/models.py:57
+msgid "To'landi"
 msgstr ""
 
-#: app/promotions/models.py:9
-msgid "Описание"
+#: app/products/models.py:60
+msgid "Click"
 msgstr ""
 
-#: app/promotions/models.py:10
-msgid "Начальные символы (маска)"
+#: app/products/models.py:61
+msgid "Payme"
 msgstr ""
 
-#: app/promotions/models.py:11
-msgid "Дата начала"
-msgstr ""
-
-#: app/promotions/models.py:12
-msgid "Дата окончания"
-msgstr ""
-
-#: app/promotions/models.py:13
-msgid "Активна"
-msgstr ""
-
-#: app/promotions/models.py:14
-msgid "Условия"
-msgstr ""
-
-#: app/promotions/models.py:17 app/promotions/models.py:36
-msgid "Промо-акция"
-msgstr ""
-
-#: app/promotions/models.py:18
-msgid "Промо-акции"
-msgstr ""
-
-#: app/promotions/models.py:37
-msgid "Пользователь"
-msgstr ""
-
-#: app/promotions/models.py:38 app/promotions/models.py:42
-msgid "Код промо-акции"
-msgstr ""
-
-#: app/promotions/models.py:39
-msgid "Дата создания"
-msgstr ""
-
-#: app/promotions/models.py:43
-msgid "Коды промо-акции"
+#: app/products/signals.py:21
+msgid "Savatchangizdagi to'lov miqdori"
 msgstr ""
 
 #: app/templates/account/account_inactive.html:6
@@ -358,6 +322,66 @@ msgstr ""
 msgid "Unknown content"
 msgstr ""
 
+#: app/templates/products/cart.html:10
+msgid "Savat"
+msgstr "Корзина"
+
+#: app/templates/products/cart.html:12
+msgid "O'chirish"
+msgstr "Стереть"
+
+#: app/templates/products/cart.html:35
+msgid "Davom etish"
+msgstr "Продолжить"
+
+#: app/templates/products/cart.html:54
+msgid "Nomi: "
+msgstr "Название: "
+
+#: app/templates/products/cart.html:55
+msgid "Narxi: "
+msgstr "Цена: "
+
+#: app/templates/products/cart.html:55
+msgid "so'm"
+msgstr "сум"
+
+#: app/templates/products/cart.html:56
+msgid "Soni: "
+msgstr "Количество: "
+
+#: app/templates/products/category_list.html:8
+msgid "Menyu"
+msgstr "Меню"
+
+#: app/templates/products/order.html:7
+msgid "Ma'lumot"
+msgstr "Информация"
+
+#: app/templates/products/order.html:25
+msgid "Xa"
+msgstr "Да"
+
+#: app/templates/products/order.html:26
+msgid "Yo'q"
+msgstr "Нет"
+
+#: app/templates/products/order.html:115
+msgid "Buyurtma berish"
+msgstr "Заказать"
+
+#: app/templates/products/order.html:152
+msgid "Manzilni tanlang"
+msgstr "Выберите адрес"
+
+#: app/templates/products/order.html:191
+msgid "Xato: 100km atrofida filial mavjud emas."
+msgstr "Ошибка: не найден филиал ближе чем 100км"
+
+#: app/templates/products/product_list.html:38
+msgid "Savat: "
+msgstr ""
+
 #: app/users/admin.py:28
 msgid "Personal info"
 msgstr ""
@@ -429,122 +453,77 @@ msgstr ""
 msgid "Information successfully updated"
 msgstr ""
 
-#: bot/functions.py:40
-msgid "Ваш промокод успешно зарегистрирован!"
-msgstr "Sizning promokodingiz muvaffaqiyatli ro‘yxatdan o'tdi!"
+#: bot/routers/echo.py:16
+msgid "Bo'limni tanlang"
+msgstr "Выберите раздел"
 
-#: bot/functions.py:45
-msgid "Ваш промокод уже имеется в нашей базе!"
-msgstr "Ushbu promokod allaqachon ro‘yxatdan o'tgan!"
+#: bot/routers/echo.py:24
+msgid "Buyurtma berish uchun quyidagi tugmani bosing"
+msgstr "Чтобы заказать товар нажмите на кнопку ниже"
 
-#: bot/functions.py:49
+#: bot/routers/echo.py:39
 msgid ""
-"Неправильное значение промо кода. \n"
-"Пожалуйста, перепроверьте введенный промо-код и введите значение заново."
+"🏡 Filiallar\n"
+"\n"
 msgstr ""
-"Promokod noto‘g‘ri. \n"
-"Kiritilgan  promokodni yana bir bor tekshiring va qayta kiriting."
+"🏡 Филиалы\n"
+"\n"
 
-#: bot/functions.py:53
-msgid "Не найдена активная акция на сегодня"
-msgstr "Bugunga faol aksiya mavjud emas"
-
-#: bot/routers/callback.py:17
-msgid "Отсутствует"
-msgstr "Mavjud emas"
-
-#: bot/routers/echo.py:28
-msgid "Отправьте нам промокод"
-msgstr "Promokod yuboring"
-
-#: bot/routers/echo.py:30 bot/routers/echo.py:52
-msgid "Ваши промокоды: \n"
-msgstr "Sizning promokodlaringiz: \n"
-
-#: bot/routers/echo.py:59
-msgid "К сожалению, у Вас нет зарегистрированных промо кодов"
-msgstr "Kechirasiz, Sizda ro‘yxatdan o‘tgan promokdlar mavjud emas"
-
-#: bot/routers/echo.py:62
+#: bot/routers/echo.py:47
 msgid ""
-"Наши социальные сети \n"
-"<a href='https://google.com'>Фейсбук</a> | <a href='https://google."
-"com'>Инстаграм</a> | <a href='https://google.com'>Телеграм</a>"
+"🏡 Manzillarim\n"
+"\n"
 msgstr ""
-"Bizning ijtimoiy tarmoqlar \n"
-"<a href='https://google.com'>Facebook</a> | <a href='https://google."
-"com'>Instagram</a> | <a href='https://google.com'>Telegram</a>"
+"🏡 Мои адреса\n"
+"\n"
 
-#: bot/routers/echo.py:79
-msgid "Условия акции"
-msgstr "Aksiya shartlari"
+#: bot/routers/payment.py:35
+msgid "Savat allaqachon to'langan"
+msgstr "Заказ уже оплачен"
 
-#: bot/routers/echo.py:90
-msgid ""
-"Сейчас нет активных акций! Как только появится акция мы Вас обязательно "
-"уведомим"
-msgstr ""
-"Hozirda faol aksiyalar mavjud emas! Aksiya paydo bo'lishi bilan sizga ushbu "
-"aksiya haqida xabar beramiz"
+#: bot/routers/payment.py:37
+msgid "Savat topilmadi"
+msgstr "Заказ не найден"
 
-#: bot/routers/echo.py:95
-#, python-brace-format
-msgid ""
-"<b>Полное имя:</b> {fullname}\n"
-"<b>Номер телефона:</b> {phone}"
-msgstr ""
-"<b>To‘liq ism:</b> {fullname}\n"
-"<b>Telefon raqam:</b> {phone}"
-
-#: bot/routers/echo.py:102
-msgid "Отправьте правильный промокод"
-msgstr "To‘g‘ri promokod yuboring"
-
-#: bot/routers/register.py:39
+#: bot/routers/register.py:28
 msgid "Выберите раздел"
 msgstr "Bo‘limni tanlang"
 
+#: bot/routers/register.py:39
+msgid "Iltimos, ism sharifingizni yozing"
+msgstr "Пожалуйста, введите свое имя и фамилию."
+
+#: bot/routers/register.py:42
+msgid "Noto'g'ri buyruq"
+msgstr "Неверная команда"
+
 #: bot/routers/register.py:50
-msgid ""
-"Пожалуйста, введите свое имя и фамилию.\n"
-"❗️Обращаем Ваше внимание – имя и фамилия должны соответствовать "
-"удостоверению вашей личности."
+msgid "Raqamni yuborish"
 msgstr ""
-"Iltimos, ismingiz va familiyangizni kiriting.\n"
-"❗️E'tibor bering - ismingiz va familiyangiz shaxsingizni tasdiqlovchi "
-"hujjatga mos kelishi kerak."
 
-#: bot/routers/register.py:55
-msgid "Неправильная команда"
-msgstr "Noto‘gri buyruq"
+#: bot/routers/register.py:51
+msgid "O'zingizni telefon raqamingizni yuboring"
+msgstr "Введите Ваш контактный номер телефона."
 
-#: bot/routers/register.py:63 bot/utils/kbs.py:21
-msgid "Отправить телефон"
-msgstr "Telefon yuborish"
-
-#: bot/routers/register.py:64
+#: bot/routers/register.py:58
 msgid ""
-"Введите Ваш контактный номер телефона регистрации промо-кода. В случае "
-"выигрыша приза, мы будем связываться с Вами по указанному номеру телефона."
+"Telefon raqam noto'g'ri ko'rsatildi\n"
+"Iltimos, telefon raqamni ko'rsatilgan formatda yozing: +998 хх ххх хх хх"
 msgstr ""
-"Promokodni ro‘yxatdan o‘tkazish uchun telefon raqamingizni kiriting. Agar "
-"siz sovrin yutib olsangiz, ko‘rsatilgan telefon raqami orqali siz bilan "
-"bog‘lanamiz."
-
-#: bot/routers/register.py:72
-msgid ""
-"Неправильно указан номер телефона. \n"
+"Неправильно указан номер телефона.\n"
 "Пожалуйста, введите номер телефона в формате +998 хх ххх хх хх"
-msgstr ""
-"Noto‘g‘ri promokod. Kiritilgan promokodni yana bir bor tekshiring va qayta "
-"kiriting.Telefon raqami noto‘g‘ri. Telefon raqamini +998 xx xxx xx xx "
-"formatida kiriting"
 
-#: bot/routers/register.py:100
-msgid ""
-"Вы успешно зарегистрировались на платформе! Отправьте промокод сюда, чтобы "
-"зарегистрировать его"
-msgstr "Siz ro‘yxatdan muvaffaqiyatli o‘tdingiz! O‘z promokodingizni yuboring"
+#: bot/routers/register.py:82
+msgid "Lokasiyangizni yuboring"
+msgstr "Отправьте локацию"
+
+#: bot/routers/register.py:95
+msgid "Ro'yxatdan o'tdingiz"
+msgstr "Вы успешно зарегистрировались"
+
+#: bot/routers/register.py:98
+msgid "Iltimos pastdagi tugmadan bizga o'z lokasiyangizni yuboring"
+msgstr "Пожалуйста, отправьте свою локацию, нажав на кнопку ниже"
 
 #: bot/utils/kbs.py:6
 msgid "🇺🇿 O'zbek tili"
@@ -554,10 +533,19 @@ msgstr ""
 msgid "🇷🇺 Русский язык"
 msgstr ""
 
+#: bot/utils/kbs.py:13
+msgid "Lokasiya yuborish"
+msgstr "Отправить локацию"
+
+#: bot/utils/kbs.py:18
+msgid "Отправить телефон"
+msgstr "Telefon yuborish"
+
 #: config/settings/base.py:32
-msgid "Русский"
+msgid "O'zbek"
 msgstr ""
 
 #: config/settings/base.py:33
-msgid "O'zbek"
+msgid "Русский"
 msgstr ""
+
