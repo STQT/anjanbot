@@ -10,7 +10,10 @@ menu_keyboards_dict = {
     "ru": ("🍟 Заказать", "🏠 Филиалы", "🏡 Мои адреса"),
     "uz": ("🍟 Buyurtma berish", "🏠 Filiallar", "🏡 Manzillarim")
 }
-send_location_text = str(_("Lokasiya yuborish"))
+send_location_text = {
+    'ru': "Отправить локацию",
+    "uz": "Lokatsiya yuborish"
+}
 
 
 def contact_kb():
@@ -19,9 +22,9 @@ def contact_kb():
     return markup.adjust(2).as_markup(resize_keyboard=True)
 
 
-def location_kb():
+def location_kb(language='uz'):
     markup = ReplyKeyboardBuilder()
-    markup.add(KeyboardButton(text=send_location_text, request_location=True))
+    markup.add(KeyboardButton(text=send_location_text[language], request_location=True))
     return markup.adjust(2).as_markup(resize_keyboard=True)
 
 
@@ -33,12 +36,12 @@ def language_kb():
     return markup.adjust(2).as_markup(resize_keyboard=True)
 
 
-def menu_kb(language_code='ru'):
+def menu_kb(language_code='uz'):
     markup = ReplyKeyboardBuilder()
     markup.add(
         *(KeyboardButton(text=menu) for menu in menu_keyboards_dict[language_code])
     )
     markup.add(
-        KeyboardButton(text=send_location_text, request_location=True)
+        KeyboardButton(text=send_location_text[language_code], request_location=True)
     )
     return markup.adjust(2).as_markup(resize_keyboard=True)

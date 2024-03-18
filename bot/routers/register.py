@@ -78,7 +78,7 @@ async def registration_phone(message: types.Message, state: FSMContext, user: Us
         return
     await message.answer(
         str(_("Lokasiyangizni yuboring")),
-        reply_markup=location_kb())
+        reply_markup=location_kb(user.language))
     await state.set_state(Registration.location)
 
 
