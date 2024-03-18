@@ -28,7 +28,6 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
                              "User: { user }"
                              "Status: { status }"
                              "Charge ID: { charge_id }")).format(
-            comment=order.comment,
             cash_type=order.get_cash_type_display(),
             delivery=order.delivery,
             address=order.address,
@@ -37,7 +36,7 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
             cost=order.cost,
             delivery_cost=order.delivery_cost,
             all_cost=order.all_cost,
-            user=order.user.fullname if order.user else None,  # Assuming TelegramUser has a 'username' field
+            user=order.user.phone if order.user else None,  # Assuming TelegramUser has a 'username' field
             status=order.get_status_display(),
             charge_id=order.charge_id,
         )
