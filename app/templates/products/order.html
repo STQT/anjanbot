@@ -4,19 +4,21 @@
 {% block content %}
   <script src="{% static 'js/order.js' %}"></script>
   <script src="{% static 'js/project.js' %}"></script>
-  <h2>{% trans "Ma'lumot" %}</h2>
+  <div class="header">
+    <div class="left-column" onclick="goBack()"><img src="{% static 'images/back.svg' %}" alt="" class="back"></div>
+    <div class="center-column"><h2>{% trans "Buyurtma" %}</h2></div>
+  </div>
   <div>
     <div class="form-group">
-      <label for="comment"></label>
-      <textarea id="comment" name="comment" placeholder="Biron izoh yozing"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="cashType">To'lov usuli:</label>
       <select id="cashType" name="cashType">
         <option value="payme">Payme</option>
         <option value="click">Click</option>
       </select>
+    </div>
+    <div class="form-group">
+      <button type="button" class="cash-button" value="payme">Payme</button>
+      <button type="button" class="cash-button" value="click">Click</button>
+      <input type="hidden" id="cashType" name="cashType"> <!-- Hidden input to store the selected value -->
     </div>
 
     <div class="form-group">
@@ -59,7 +61,7 @@
     </div>
 
     <div class="form-group">
-      <label for="totalAmount">Umumiy hisob:</label>
+      <label for="totalAmount">Jami:</label>
       <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
     </div>
   </div>
@@ -72,7 +74,6 @@
 
     function createOrder() {
       const formData = {
-        comment: document.getElementById('comment').value,
         cash_type: document.getElementById('cashType').value,
         delivery: document.getElementById('deliveryOption').value,
         address: document.getElementById('selectedAddress').innerText,

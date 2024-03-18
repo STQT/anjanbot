@@ -279,3 +279,7 @@ span {
   float: right;
   text-align: right;
 }
+
+button.cart-button {
+  padding: 15px;
+}

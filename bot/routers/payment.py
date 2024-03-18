@@ -11,7 +11,7 @@ router = Router()
 @router.message(F.successful_payment)
 async def echo_successfull_payment(message: types.Message, user: User) -> None:
     try:
-        order = await Order.objects.aget(pk=int(message.successful_payment.invoice_payload))
+        order = await Order.objects.select_related('user', 'filial').aget(pk=int(message.successful_payment.invoice_payload))
         order.status = order.STATUS.PAID
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
@@ -37,7 +37,7 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
             cost=order.cost,
             delivery_cost=order.delivery_cost,
             all_cost=order.all_cost,
-            user=order.user.username if order.user else None,  # Assuming TelegramUser has a 'username' field
+            user=order.user.fullname if order.user else None,  # Assuming TelegramUser has a 'username' field
             status=order.get_status_display(),
             charge_id=order.charge_id,
         )
