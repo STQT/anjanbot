@@ -324,59 +324,59 @@ msgstr ""
 
 #: app/templates/products/cart.html:10
 msgid "Savat"
-msgstr "Корзина"
+msgstr ""
 
 #: app/templates/products/cart.html:12
 msgid "O'chirish"
-msgstr "Стереть"
+msgstr ""
 
 #: app/templates/products/cart.html:35
 msgid "Davom etish"
-msgstr "Продолжить"
+msgstr ""
 
 #: app/templates/products/cart.html:54
 msgid "Nomi: "
-msgstr "Название: "
+msgstr ""
 
 #: app/templates/products/cart.html:55
 msgid "Narxi: "
-msgstr "Цена: "
+msgstr ""
 
 #: app/templates/products/cart.html:55
 msgid "so'm"
-msgstr "сум"
+msgstr ""
 
 #: app/templates/products/cart.html:56
 msgid "Soni: "
-msgstr "Количество: "
+msgstr ""
 
 #: app/templates/products/category_list.html:8
 msgid "Menyu"
-msgstr "Меню"
+msgstr ""
 
 #: app/templates/products/order.html:7
 msgid "Ma'lumot"
-msgstr "Информация"
+msgstr ""
 
 #: app/templates/products/order.html:25
 msgid "Xa"
-msgstr "Да"
+msgstr ""
 
 #: app/templates/products/order.html:26
 msgid "Yo'q"
-msgstr "Нет"
+msgstr ""
 
 #: app/templates/products/order.html:115
 msgid "Buyurtma berish"
-msgstr "Заказать"
+msgstr ""
 
 #: app/templates/products/order.html:152
 msgid "Manzilni tanlang"
-msgstr "Выберите адрес"
+msgstr ""
 
 #: app/templates/products/order.html:191
 msgid "Xato: 100km atrofida filial mavjud emas."
-msgstr "Ошибка: не найден филиал ближе чем 100км"
+msgstr ""
 
 #: app/templates/products/product_list.html:38
 msgid "Savat: "
@@ -454,43 +454,39 @@ msgstr ""
 
 #: bot/routers/echo.py:16 bot/routers/register.py:27
 msgid "Bo'limni tanlang"
-msgstr "Выберите раздел"
+msgstr ""
 
 #: bot/routers/echo.py:25
 msgid "Buyurtma berish uchun quyidagi tugmani bosing"
-msgstr "Чтобы заказать товар нажмите на кнопку ниже"
+msgstr ""
 
 #: bot/routers/echo.py:40
 msgid ""
 "🏡 Filiallar\n"
 "\n"
 msgstr ""
-"🏡 Филиалы\n"
-"\n"
 
 #: bot/routers/echo.py:48
 msgid ""
 "🏡 Manzillarim\n"
 "\n"
 msgstr ""
-"🏡 Мои адреса\n"
-"\n"
 
 #: bot/routers/payment.py:35
 msgid "Savat allaqachon to'langan"
-msgstr "Заказ уже оплачен"
+msgstr ""
 
 #: bot/routers/payment.py:37
 msgid "Savat topilmadi"
-msgstr "Заказ не найден"
+msgstr ""
 
 #: bot/routers/register.py:38
 msgid "Iltimos, ism sharifingizni yozing"
-msgstr "Пожалуйста, введите свое имя и фамилию."
+msgstr ""
 
 #: bot/routers/register.py:41
 msgid "Noto'g'ri buyruq"
-msgstr "Неверная команда"
+msgstr ""
 
 #: bot/routers/register.py:49
 msgid "Raqamni yuborish"
@@ -498,27 +494,25 @@ msgstr ""
 
 #: bot/routers/register.py:50
 msgid "O'zingizni telefon raqamingizni yuboring"
-msgstr "Введите Ваш контактный номер телефона."
+msgstr ""
 
 #: bot/routers/register.py:57
 msgid ""
 "Telefon raqam noto'g'ri ko'rsatildi\n"
 "Iltimos, telefon raqamni ko'rsatilgan formatda yozing: +998 хх ххх хх хх"
 msgstr ""
-"Неправильно указан номер телефона.\n"
-"Пожалуйста, введите номер телефона в формате +998 хх ххх хх хх"
 
 #: bot/routers/register.py:80
 msgid "Lokasiyangizni yuboring"
-msgstr "Отправьте локацию"
+msgstr ""
 
 #: bot/routers/register.py:93
 msgid "Ro'yxatdan o'tdingiz"
-msgstr "Вы успешно зарегистрировались"
+msgstr ""
 
 #: bot/routers/register.py:96
 msgid "Iltimos pastdagi tugmadan bizga o'z lokasiyangizni yuboring"
-msgstr "Пожалуйста, отправьте свою локацию, нажав на кнопку ниже"
+msgstr ""
 
 #: bot/utils/kbs.py:6
 msgid "🇺🇿 O'zbek tili"
@@ -530,13 +524,13 @@ msgstr ""
 
 #: bot/utils/kbs.py:13
 msgid "Lokasiya yuborish"
-msgstr "Отправить локацию"
+msgstr ""
 
 #: bot/utils/kbs.py:18
 #, fuzzy
 #| msgid "Lokasiya yuborish"
 msgid "Raqam yuborish"
-msgstr "Отправить локацию"
+msgstr ""
 
 #: config/settings/base.py:32
 msgid "O'zbek"
@@ -545,9 +539,3 @@ msgstr ""
 #: config/settings/base.py:33
 msgid "Русский"
 msgstr ""
-
-#~ msgid "Отправить телефон"
-#~ msgstr "Telefon yuborish"
-
-#~ msgid "Выберите раздел"
-#~ msgstr "Bo‘limni tanlang"

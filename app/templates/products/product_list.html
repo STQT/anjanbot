@@ -76,6 +76,7 @@
   <ul class="category-list">
     {% for product in products %}
       <li data-product-id="{{ product.id }}" data-product-name="{{ product.name }}">
+        <div class="overlay-price"><div class="price">{{ product.price }} {% trans "so'm" %}</div></div>
         {% if product.image %}
           <img src="{{ product.image.url }}" alt="{{ product.name }}" width="168px" height="168px"
                onclick="addToCart({{ product.id }},'{{ product.name }}')">
@@ -83,7 +84,7 @@
           <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px"
                onclick="addToCart({{ product.id }},'{{ product.name }}')">
         {% endif %}
-        <div class="overlay-price"><div class="price">18000</div></div>
+        
         <div class="overlay-button" id="prod-{{ product.id }}"></div>
       </li>
     {% endfor %}

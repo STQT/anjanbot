@@ -61,7 +61,7 @@ ul.category-list li img {
 ul.category-list li .overlay-button {
   display: inline-block;
   position: relative;
-  top: -86px;
+  top: -50px;
   z-index: 1; /* Убедитесь, что кнопка находится выше изображения */
   background: var(--second-color);
   width: 168px;
@@ -83,15 +83,16 @@ ul.category-list li .overlay-button div {
 ul.category-list li .overlay-price {
   display: inline-block;
   position: relative;
-  top: -158px;
-  left: -24px;
+  top: 36px;
+  left: -33px;
   z-index: 1; /* Убедитесь, что кнопка находится выше изображения */
   background: var(--second-color);
-  width: 90px;
+  width: 100px;
   height: 24px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
+  font-size: medium;
 }
 
 
@@ -258,3 +259,23 @@ span {
   clear: both;
 }
 
+.all-cost {
+  position: fixed;
+  bottom: 10px; /* Adjust this value to set the distance from the bottom */
+  left: 32px;
+  right: 30px;
+  background-color: white; /* Optional: Set background color */
+  padding: 10px; /* Optional: Add padding */
+  text-align: center; /* Optional: Center align text */
+  font-size: 24px;
+}
+
+.all-cost .left {
+  float: left;
+  text-align: left;
+}
+
+.all-cost .right {
+  float: right;
+  text-align: right;
+}

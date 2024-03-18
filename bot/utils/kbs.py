@@ -7,8 +7,8 @@ languages = (
     str(_("🇷🇺 Русский язык"))
 )
 menu_keyboards_dict = {
-    "ru": ("🍟 Заказать", "🏠 Filiallar", "🏡 Manzillarim"),
-    "uz": ("🍟 Buyurtma berish", "🏠 Филиалы", "🏡 Мои адреса")
+    "ru": ("🍟 Заказать", "🏠 Филиалы", "🏡 Мои адреса"),
+    "uz": ("🍟 Buyurtma berish", "🏠 Filiallar", "🏡 Manzillarim")
 }
 send_location_text = str(_("Lokasiya yuborish"))
 
