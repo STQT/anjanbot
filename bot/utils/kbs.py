@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from django.utils.translation import gettext_lazy as _
-from aiogram.types import KeyboardButton, KeyboardButtonRequestChat, KeyboardButtonRequestUsers
+from aiogram.types import KeyboardButton
 
 languages = (
     str(_("🇺🇿 O'zbek tili")),
@@ -15,7 +15,7 @@ send_location_text = str(_("Lokasiya yuborish"))
 
 def contact_kb():
     markup = ReplyKeyboardBuilder()
-    markup.add(KeyboardButton(text=str(_("Отправить телефон")), request_contact=True))
+    markup.add(KeyboardButton(text=str(_("Raqam yuborish")), request_contact=True))
     return markup.adjust(2).as_markup(resize_keyboard=True)
 
 

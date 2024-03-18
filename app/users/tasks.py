@@ -18,13 +18,19 @@ from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.db.models import F
 
-from app.users.models import TelegramUser, Notification, PeriodicallyNotification
+from app.users.models import TelegramUser, Notification
 from bot.utils.storage import DjangoRedisStorage
 from bot.filters.states import Registration
 from bot.misc import bot, bot_session
 from bot.utils.kbs import contact_kb, language_kb
 
 User = get_user_model()
+
+api_token = settings.BOT_TOKEN
+base_url = f'https://api.telegram.org/bot{api_token}'
+SEND_MEDIA_GROUP = f"https://api.telegram.org/bot{api_token}/sendMediaGroup"
+
+logger = get_task_logger(__name__)
 
 
 @shared_task()
@@ -54,21 +60,20 @@ async def return_hello():
             if not user.language:
                 await state.set_state(Registration.language)
                 await bot.send_message(user.id,
-                                       str(_("Завершите регистрацию, чтобы участвовать в розыгрыше. \n"
-                                             "Это займет всего несколько минут.")),
+                                       str(_("Ro'yxatdan o'tishni davom ettiring. \n"
+                                             "Bu bir daqiqa vaqtingizni oladi.")),
                                        reply_markup=language_kb())
             elif not user.fullname:
                 await state.set_state(Registration.fio)
                 await bot.send_message(user.id,
-                                       str(_("Вы забыли указать Ваше имя! \n"
-                                             "Пожалуйста, заполните его для продолжения регистрации.")),
+                                       str(_("Siz ismingizni ko'rsatishni unutdingiz! \n"
+                                             "Iltimos, davom ettirish uchun ismingizni yozing")),
                                        reply_markup=ReplyKeyboardRemove())
             elif not user.phone:
                 await state.set_state(Registration.phone)
                 await bot.send_message(user.id,
-                                       str(_("Остался всего один шаг! \n"
-                                             "Введите номер телефона, чтобы завершить регистрацию и ввести "
-                                             "промо-код для участия в розыгрыше.")),
+                                       str(_("Bor yo'g'i bir qadam qoldi! \n"
+                                             "Telefon raqamni to'ldiring va haridlarni davom ettiravering!")),
                                        reply_markup=contact_kb())
         except TelegramForbiddenError:
             user.is_active = False
@@ -80,13 +85,6 @@ async def return_hello():
 @shared_task()
 def sync_task():
     async_to_sync(return_hello)()
-
-
-api_token = settings.BOT_TOKEN
-base_url = f'https://api.telegram.org/bot{api_token}'
-SEND_MEDIA_GROUP = f"https://api.telegram.org/bot{api_token}/sendMediaGroup"
-
-logger = get_task_logger(__name__)
 
 
 def send_media_group(text, chat_id, media):
@@ -102,7 +100,7 @@ def send_media_group(text, chat_id, media):
             print(f"File not found: {img_path}. Skipping...")
             continue
     if not media_list:
-        print("No valid files found. Aborting send_media_group.")
+        logger.warning("No valid files found. Aborting send_media_group.")
         return None
     media_list[0]['caption'] = text
     media_list[0]['parse_mode'] = 'HTML'
@@ -135,45 +133,3 @@ def send_notifications_task(notification_id, text, media, offset, chunk_size, is
             all_chats=F('all_chats') + chunk_chats.count(),
             status=Notification.NotificationStatus.SENDED
         )
-
-
-# @shared_task()
-# def scheduled_send_periodically_notification():
-#     periodically_notification = PeriodicallyNotification.objects.filter(is_current=True)
-#     if periodically_notification.exists():
-#         periodically_notification = periodically_notification.first()
-#         media = []
-#         cache_path = settings.MEDIA_ROOT
-#         for i in periodically_notification.periodic_shots.all():
-#             compressed_image = i.image_compress.url
-#             compressed_image_path = cache_path + compressed_image[len(settings.MEDIA_URL):]
-#             media.append(compressed_image_path)
-#         chunk_size = 200
-#         offset = 0
-#
-#         first_task = None
-#
-#         while True:
-#             chunk_chats = TelegramUser.objects.filter(is_active=True).order_by('id')[offset:offset + chunk_size]
-#
-#             if not chunk_chats:
-#                 break
-#
-#             task = send_notifications_task.signature(
-#                 (periodically_notification.pk,
-#                  periodically_notification.description,
-#                  media,
-#                  offset,
-#                  chunk_size,
-#                  False),
-#                 immutable=True)
-#
-#             if first_task:
-#                 first_task |= task
-#             else:
-#                 first_task = task
-#
-#             offset += chunk_size
-#         first_task.apply_async()
-#         return {"message": "Periodically notifications task was started"}
-#     return {"message": "No periodically notifications"}

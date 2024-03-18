@@ -24,7 +24,7 @@ async def on_start(message: types.Message, state: FSMContext, user: User):
         await message.answer(hello_text, reply_markup=language_kb())
         await state.set_state(Registration.language)
     else:
-        await message.answer(str(_("Выберите раздел")), reply_markup=menu_kb(user.language))
+        await message.answer(str(_("Bo'limni tanlang")), reply_markup=menu_kb(user.language))
 
 
 @router.message(Registration.language)
