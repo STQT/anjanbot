@@ -3,15 +3,9 @@ import time
 import requests
 from urllib.parse import unquote
 
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from asgiref.sync import async_to_sync
 
-from aiogram.types import ReplyKeyboardRemove
-from aiogram.exceptions import TelegramForbiddenError
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.storage.base import StorageKey
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -19,10 +13,6 @@ from django.conf import settings
 from django.db.models import F
 
 from app.users.models import TelegramUser, Notification
-from bot.utils.storage import DjangoRedisStorage
-from bot.filters.states import Registration
-from bot.misc import bot, bot_session
-from bot.utils.kbs import contact_kb, language_kb
 
 User = get_user_model()
 
@@ -39,52 +29,52 @@ def get_users_count():
     return User.objects.count()
 
 
-async def return_hello():
-    current_time = timezone.now()
-    lang = TelegramUser.objects.filter(language__isnull=True)
-    phone = TelegramUser.objects.filter(phone__isnull=True)
-    fullname = TelegramUser.objects.filter(fullname__isnull=True)
-    all_active_users = lang | phone | fullname
-    all_active_users = all_active_users.filter(
-        is_active=True).filter(updated_at__lt=current_time - timezone.timedelta(hours=1))
-    async for user in all_active_users:
-        storage_key = StorageKey(
-            user_id=user.id,
-            chat_id=user.id,
-            bot_id=bot.id,
-            destiny='default'
-        )
-        state = FSMContext(DjangoRedisStorage(bot),
-                           key=storage_key)
-        try:
-            if not user.language:
-                await state.set_state(Registration.language)
-                await bot.send_message(user.id,
-                                       str(_("Ro'yxatdan o'tishni davom ettiring. \n"
-                                             "Bu bir daqiqa vaqtingizni oladi.")),
-                                       reply_markup=language_kb())
-            elif not user.fullname:
-                await state.set_state(Registration.fio)
-                await bot.send_message(user.id,
-                                       str(_("Siz ismingizni ko'rsatishni unutdingiz! \n"
-                                             "Iltimos, davom ettirish uchun ismingizni yozing")),
-                                       reply_markup=ReplyKeyboardRemove())
-            elif not user.phone:
-                await state.set_state(Registration.phone)
-                await bot.send_message(user.id,
-                                       str(_("Bor yo'g'i bir qadam qoldi! \n"
-                                             "Telefon raqamni to'ldiring va haridlarni davom ettiravering!")),
-                                       reply_markup=contact_kb())
-        except TelegramForbiddenError:
-            user.is_active = False
-            await user.asave()
-    await bot_session.close()
-    return 'hello'
+# async def return_hello():
+#     current_time = timezone.now()
+#     lang = TelegramUser.objects.filter(language__isnull=True)
+#     phone = TelegramUser.objects.filter(phone__isnull=True)
+#     fullname = TelegramUser.objects.filter(fullname__isnull=True)
+#     all_active_users = lang | phone | fullname
+#     all_active_users = all_active_users.filter(
+#         is_active=True).filter(updated_at__lt=current_time - timezone.timedelta(hours=1))
+#     async for user in all_active_users:
+#         storage_key = StorageKey(
+#             user_id=user.id,
+#             chat_id=user.id,
+#             bot_id=bot.id,
+#             destiny='default'
+#         )
+#         state = FSMContext(DjangoRedisStorage(bot),
+#                            key=storage_key)
+#         try:
+#             if not user.language:
+#                 await state.set_state(Registration.language)
+#                 await bot.send_message(user.id,
+#                                        str(_("Ro'yxatdan o'tishni davom ettiring. \n"
+#                                              "Bu bir daqiqa vaqtingizni oladi.")),
+#                                        reply_markup=language_kb())
+#             elif not user.fullname:
+#                 await state.set_state(Registration.fio)
+#                 await bot.send_message(user.id,
+#                                        str(_("Siz ismingizni ko'rsatishni unutdingiz! \n"
+#                                              "Iltimos, davom ettirish uchun ismingizni yozing")),
+#                                        reply_markup=ReplyKeyboardRemove())
+#             elif not user.phone:
+#                 await state.set_state(Registration.phone)
+#                 await bot.send_message(user.id,
+#                                        str(_("Bor yo'g'i bir qadam qoldi! \n"
+#                                              "Telefon raqamni to'ldiring va haridlarni davom ettiravering!")),
+#                                        reply_markup=contact_kb())
+#         except TelegramForbiddenError:
+#             user.is_active = False
+#             await user.asave()
+#     await bot_session.close()
+#     return 'hello'
 
 
-@shared_task()
-def sync_task():
-    async_to_sync(return_hello)()
+# @shared_task()
+# def sync_task():
+#     async_to_sync(return_hello)()
 
 
 def send_media_group(text, chat_id, media):
