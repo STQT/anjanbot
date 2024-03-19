@@ -16,18 +16,18 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
         success_text = str(_("<b>Yangi buyurtma:</b>"
-                             "Cash Type: { cash_type }"
-                             "Delivery: { delivery }"
-                             "Address: { address }"
-                             "Filial: { filial }"
-                             "Distance: { distance }"
-                             "Cost: { cost }"
-                             "Delivery Cost: { delivery_cost }"
-                             "Total Cost: { all_cost }"
-                             "User: { user }"
-                             "Status: { status }"
-                             "Charge ID: { charge_id }")).format(
-            cash_type=order.cash_type,
+                             "Cash Type: {cash_type}"
+                             "Delivery: {delivery}"
+                             "Address: {address}"
+                             "Filial: {filial}"
+                             "Distance: {distance}"
+                             "Cost: {cost}"
+                             "Delivery Cost: {delivery_cost}"
+                             "Total Cost: {all_cost}"
+                             "User: {user}"
+                             "Status: {status}"
+                             "Charge ID: {charge_id}")).format(
+            cash_type=order.get_cash_type_display(),
             delivery=order.delivery,
             address=order.address,
             filial=order.filial.name,  # Assuming Branch model has a 'name' field
