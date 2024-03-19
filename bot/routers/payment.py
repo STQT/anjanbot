@@ -27,7 +27,7 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
                              "User: { user }"
                              "Status: { status }"
                              "Charge ID: { charge_id }")).format(
-            cash_type=order.get_cash_type_display(),
+            cash_type=order.cash_type,
             delivery=order.delivery,
             address=order.address,
             filial=order.filial.name,  # Assuming Branch model has a 'name' field
