@@ -21,7 +21,6 @@ async def echo_handler(message: types.Message, user: User) -> None:
     if message.text and message.text in menu_text_list:
         if message.text in ("🍟 Заказать", "🍟 Buyurtma berish"):
             url = settings.HOST + "/tg/?lang=" + user.language
-            print(url)
             await message.answer(
                 str(_("Buyurtma berish uchun quyidagi tugmani bosing")),
                 reply_markup=InlineKeyboardMarkup(

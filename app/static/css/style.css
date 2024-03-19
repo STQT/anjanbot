@@ -9,6 +9,9 @@
   --text-color: var(--light-text-color); /* Default to light mode text color */
   --second-color: var(--light-second-color); /* Default to light mode text color */
   transition: background-color 0.3s ease, color 0.3s ease;
+  --light-down: url('black.svg');
+  --dark-down: url('white.svg');
+  --down: var(--light-down);
 }
 
 
@@ -17,6 +20,7 @@
   --background-color: var(--dark-background-color);
   --text-color: var(--dark-text-color);
   --second-color: var(--dark-second-color);
+  --down: var(--dark-down);
 }
 
 a {
@@ -214,6 +218,26 @@ h2 {
   margin-bottom: 20px;
   display: flex;
   width: 100%;
+  background-color: var(--second-color);
+  height: 50px;
+  bottom: 10px; /* Adjust this value to set the distance from the bottom */
+  left: 20px;
+  right: 30px;
+  padding: 2px; /* Optional: Add padding */
+  text-align: center; /* Optional: Center align text */
+  font-size: 14px;
+  align-items: center;
+}
+
+
+.form-group .form-left {
+  text-align: center;
+  padding: 10px;
+}
+
+.form-group .form-right {
+  padding: 10px;
+  text-align: center;
 }
 
 .cash-button {
@@ -249,7 +273,6 @@ h2 {
 }
 
 
-
 /* Adjust label styles */
 label {
   display: block;
@@ -268,6 +291,16 @@ textarea {
 select {
   width: 100%;
   padding: 5px;
+  height: 50px;
+  background-color: var(--second-color);
+  border: none;
+  appearance: none;
+  -webkit-appearance: none; /* For older versions of WebKit browsers */
+  -moz-appearance: none;
+  background-image: var(--down); /* Replace with your arrow image */
+  background-repeat: no-repeat;
+  background-position: calc(100% - 15px) center;
+  border-radius: 7px;
 }
 
 /* Adjust input styles */
@@ -295,12 +328,13 @@ span {
 .all-cost {
   position: fixed;
   bottom: 10px; /* Adjust this value to set the distance from the bottom */
-  left: 32px;
+  left: 20px;
   right: 30px;
-  background-color: white; /* Optional: Set background color */
   padding: 10px; /* Optional: Add padding */
   text-align: center; /* Optional: Center align text */
-  font-size: 24px;
+  font-size: 14px;
+  display: inline-grid;
+  background-color: var(--second-color);
 }
 
 .all-cost .left {
@@ -313,6 +347,16 @@ span {
   text-align: right;
 }
 
+.cost {
+  padding: 5px;
+}
+
 button.cart-button {
   padding: 15px;
+}
+
+.divider {
+  height: 1px; /* Adjust height as needed */
+  background-color: var(--text-color); /* Adjust color as needed */
+  margin: 10px 0; /* Adjust margin as needed */
 }

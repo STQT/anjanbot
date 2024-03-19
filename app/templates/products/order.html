@@ -8,7 +8,7 @@
     <div class="left-column" onclick="goBack()"><img src="{% static 'images/back.svg' %}" alt="" class="back"></div>
     <div class="center-column"><h2>{% trans "Buyurtma" %}</h2></div>
   </div>
-  <div>
+  <div style="padding: 10px">
     <div class="form-group">
       <button type="button" class="cash-button active" value="payme">Payme</button>
       <button type="button" class="cash-button" value="click">Click</button>
@@ -24,37 +24,41 @@
     </div>
 
     <div class="form-group">
-      <label for="address">Manzil:</label>
+      <label for="address" hidden></label>
       <select id="address" name="address">
       </select>
-      <input type="hidden" id="selectedAddress" name="selectedAddress" value="yes">
+      <input type="hidden" id="selectedAddress" name="selectedAddress" value="">
     </div>
 
 
     <div class="form-group">
-      <label for="branch">Filial:</label>
-      <span id="branch"></span>
+      <div class="form-left">Filial:</div>
+      <div id="branch" class="form-right"></div>
     </div>
 
     <div class="form-group">
-      <label for="minDistance">Masofa:</label>
-      <span id="minDistance">Noma'lum</span>
+      <div class="form-left">Masofa:</div>
+      <div id="minDistance" class="form-right">Noma'lum</div>
     </div>
 
 
-    <div class="form-group">
-      <label for="deliveryCost">{% trans 'Yetkazib berish:' %}</label>
-      <input type="number" id="deliveryCost" name="deliveryCost" value="0" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="cost">{% trans 'Narxi:' %}</label>
-      <input type="number" id="cost" name="cost" value="0" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="totalAmount">{% trans 'Jami:' %}</label>
-      <input type="number" id="totalAmount" name="totalAmount" value="0" readonly>
+    <div class="all-cost">
+      <div class="cost">
+        <div class="left">{% trans 'Yetkazib berish:' %}</div>
+        <div class="right"> {% trans 'soʻm' %}</div>
+        <div class="right" id="deliveryCost">0</div>
+      </div>
+      <div class="cost">
+        <div class="left">{% trans 'Narxi:' %}</div>
+        <div class="right"> {% trans 'soʻm' %}</div>
+        <div class="right" id="cost">0</div>
+      </div>
+      <div class="divider"></div>
+      <div class="cost">
+        <div class="left">{% trans 'Jami:' %}</div>
+        <div class="right" style="font-size: 20px"> {% trans 'soʻm' %}</div>
+        <div class="right" id="totalAmount" style="font-size: 20px">0</div>
+      </div>
     </div>
   </div>
 
@@ -91,7 +95,33 @@
 
           var selectedValue = this.value;
           var deliveryTypeInput = document.getElementById("deliveryOption");
+
+          const deliveryCost = deliveryTypeInput.innerHTML === '' ? 0 : deliveryTypeInput.innerHTML
+          document.getElementById('deliveryCost').innerHTML = selectedValue === 'no' ? 0 : deliveryCost
           deliveryTypeInput.value = selectedValue;
+          const addressSelect = document.getElementById('selectedAddress');
+          const selectedAddress = addresses.find(address => address.id === parseInt(addressSelect.value));
+          if (selectedAddress) {
+            const addressLatitude = selectedAddress.latitude;
+            const addressLongitude = selectedAddress.longitude;
+            let minDistance = Infinity;
+            let closestOutlet = null;
+            outletBranches.forEach(branch => {
+
+              const distance = calculateDistance(addressLatitude, addressLongitude, branch.latitude, branch.longitude);
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestOutlet = branch;
+              }
+            });
+            validateMinDistance(minDistance, closestOutlet);
+            // Update minimum distance label
+            document.getElementById('minDistance').innerText = minDistance.toFixed(2) + " km";
+          } else {
+            document.getElementById('minDistance').innerText = "0 km";
+            document.getElementById('branch').innerText = "";
+          }
+
         });
       });
     });
@@ -110,9 +140,9 @@
         address: document.getElementById('selectedAddress').innerText,
         filial: parseInt(document.getElementById('branch').getAttribute('data')),
         distance: document.getElementById('minDistance').value,
-        cost: document.getElementById('cost').value,
-        delivery_cost: document.getElementById('deliveryCost').value,
-        all_cost: document.getElementById('totalAmount').value,
+        cost: document.getElementById('cost').innerHTML,
+        delivery_cost: document.getElementById('deliveryCost').innerHTML,
+        all_cost: document.getElementById('totalAmount').innerHTML,
         user: parseInt(user.id),
       };
       fetch('/create-order/', {
@@ -173,7 +203,7 @@
       let closestOutlet = null;
 
       if (minDistance > 100) {
-        document.getElementById('branch').innerText = "100 km dan uzoqga yetkazib berish imkoni yo'q";
+        document.getElementById('branch').innerText = '{% trans "Nomaʻlum" %}';
 
       } else {
         document.getElementById('branch').innerText = closestOutlet.name;
@@ -201,6 +231,7 @@
 
         const selectedAddress = addresses.find(address => address.id === parseInt(this.value));
         document.getElementById('selectedAddress').innerText = selectedAddress ? selectedAddress.name : '';
+        document.getElementById('selectedAddress').value = selectedAddress ? selectedAddress.id : '';
 
         // Calculate and update minimum distance if an address is selected
         if (selectedAddress) {
@@ -219,15 +250,8 @@
           });
 
           // Validate minimum distance
-          if (minDistance > 100) {
-            document.getElementById('branch').innerText = '{% trans "Xato: 100km atrofida filial mavjud emas." %}';
-            disableButton();
-          } else {
-            const branchElement = document.getElementById('branch');
-            branchElement.setAttribute('data', closestOutlet.id);
-            document.getElementById('branch').innerText = closestOutlet.name;
-            showButton();
-          }
+          validateMinDistance(minDistance, closestOutlet);
+
 
           // Update minimum distance label
           document.getElementById('minDistance').innerText = minDistance.toFixed(2) + " km";
@@ -237,16 +261,6 @@
         }
       });
 
-      // Calculate and update cost
-      const cost = getCartItemCount().totalPrice;
-      document.getElementById('cost').value = cost;
-
-      // Calculate and update delivery cost based on delivery option
-      const deliveryOption = document.getElementById('deliveryOption').value;
-      const deliveryCost = deliveryOption === 'yes' ? 1000 : 0; // Example delivery cost
-      document.getElementById('deliveryCost').value = deliveryCost;
-      const totalAmount = cost + deliveryCost;
-      document.getElementById('totalAmount').value = totalAmount;
 
       // document.getElementById('deliveryOption').addEventListener('change', function () {
       //   const selectedOption = this.value;
@@ -269,6 +283,37 @@
     }).catch(error => {
       console.error('Error fetching address branches data:', error);
     });
+
+    function validateMinDistance(minDistance, closestOutlet) {
+      if (minDistance > 100) {
+        document.getElementById('branch').innerText = '{% trans "Xato: 100km atrofida filial mavjud emas." %}';
+        disableButton();
+      } else {
+        const branchElement = document.getElementById('branch');
+        branchElement.setAttribute('data', closestOutlet.id);
+        document.getElementById('branch').innerText = closestOutlet.name;
+        showButton();
+        // Calculate and update cost
+        const cost = getCartItemCount().totalPrice;
+        document.getElementById('cost').innerHTML = cost;
+
+        // Calculate and update delivery cost based on delivery option
+        const deliveryOption = document.getElementById('deliveryOption').value;
+        let calculatedCost;
+
+        if (isFinite(minDistance)) {
+          calculatedCost = 2000 * Math.ceil(minDistance);
+        } else {
+          // Handle the case where minDistance is Infinity or NaN
+          calculatedCost = 0; // Or any other appropriate value
+        }
+        const deliveryCost = deliveryOption === 'yes' ? calculatedCost : 0; // Example delivery cost
+
+        document.getElementById('deliveryCost').innerHTML = deliveryCost;
+        const totalAmount = cost + deliveryCost;
+        document.getElementById('totalAmount').innerHTML = totalAmount.toLocaleString('en-US').replace(/,/g, ' ');
+      }
+    }
 
   </script>
 

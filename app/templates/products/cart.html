@@ -106,7 +106,7 @@
           totalCost += product.count * product.price;
         }
       }
-      document.getElementById('total-cost').innerText = totalCost.toFixed(2); // Display total cost with two decimal places
+      document.getElementById('total-cost').innerText = totalCost.toLocaleString('en-US').replace(/,/g, ' ') + ' {% trans "soʻm" %}';
     }
 
     // Call the function to update total cost initially
