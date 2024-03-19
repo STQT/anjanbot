@@ -1,9 +1,11 @@
 from aiogram import Router, types, F
 from aiogram.types import PreCheckoutQuery
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from app.products.models import Order
 from app.users.models import TelegramUser as User
+from bot.utils.kbs import approve
 
 router = Router()
 
@@ -11,24 +13,24 @@ router = Router()
 @router.message(F.successful_payment)
 async def echo_successfull_payment(message: types.Message, user: User) -> None:
     try:
-        order = await Order.objects.select_related('user', 'filial').aget(pk=int(message.successful_payment.invoice_payload))
+        order = await Order.objects.select_related(
+            'user', 'filial').aget(pk=int(message.successful_payment.invoice_payload))
         order.status = order.STATUS.PAID
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
-        success_text = str(_("<b>Yangi buyurtma:</b>"
-                             "Cash Type: {cash_type}"
-                             "Delivery: {delivery}"
-                             "Address: {address}"
-                             "Filial: {filial}"
-                             "Distance: {distance}"
-                             "Cost: {cost}"
-                             "Delivery Cost: {delivery_cost}"
-                             "Total Cost: {all_cost}"
-                             "User: {user}"
-                             "Status: {status}"
-                             "Charge ID: {charge_id}")).format(
+        success_text = str(_("<b>Yangi buyurtma</b>\n"
+                             "To'lov turi: {cash_type}\n"
+                             "Yetkazib berish: {delivery}\n"
+                             "Manzil: {address}\n"
+                             "Filial: {filial}\n"
+                             "Masofa: {distance}\n"
+                             "Narx: {cost}\n"
+                             "Yetkazib berish narxi: {delivery_cost}\n"
+                             "Jami: {all_cost}\n"
+                             "Foydalanuvchi: {user}\n"
+                             "Check ID: {charge_id}\n")).format(
             cash_type=order.get_cash_type_display(),
-            delivery=order.delivery,
+            delivery=str(_("Xa")) if order.delivery == 'yes' else str(_("Yo'q")),
             address=order.address,
             filial=order.filial.name,  # Assuming Branch model has a 'name' field
             distance=order.distance,
@@ -36,10 +38,10 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
             delivery_cost=order.delivery_cost,
             all_cost=order.all_cost,
             user=order.user.phone if order.user else None,  # Assuming TelegramUser has a 'username' field
-            status=order.get_status_display(),
             charge_id=order.charge_id,
         )
-        await message.bot.send_message(390736292, success_text)
+        await message.bot.send_message(order.user_id, success_text)
+        await message.bot.send_message(settings.TELEGRAM_GROUP_ID, success_text, reply_markup=approve(order.pk))
     except Order.DoesNotExist:
         ...
 

@@ -18,6 +18,7 @@ PAYME_PHOTO = "https://synthesis.uz/wp-content/uploads/2022/01/payme-1920x1080-1
 def send_new_user_notification(sender, instance, created, **kwargs):
     if created:
         sync_send_invoice = async_to_sync(bot.send_invoice)
+        sync_send_message = async_to_sync(bot.send_message)
         price = LabeledPrice(label=str(_("Savatchangizdagi to'lov miqdori")),
                              amount=int(instance.all_cost) * 100)
         invoice_data = {
@@ -30,4 +31,9 @@ def send_new_user_notification(sender, instance, created, **kwargs):
             "provider_token": CLICK if instance.cash_type == Order.CashTYPE.CLICK else PAYME,
             "prices": [price]
         }
+        message_data = {
+            "chat_id": instance.user_id,
+            "text": str(_("Xaridni to'lash uchun quyidagi tugma orqali to'lang"))
+        }
+        sync_send_message(**message_data)
         sync_send_invoice(**invoice_data)

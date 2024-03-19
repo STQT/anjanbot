@@ -4,9 +4,10 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _, activate
 
 from app.address.models import Address, Branch
+from app.products.models import Order
 from app.users.models import TelegramUser as User
 from bot.functions import get_location_name_async
-from bot.utils.kbs import menu_keyboards_dict, menu_kb
+from bot.utils.kbs import menu_keyboards_dict, menu_kb, approve
 
 router = Router()
 

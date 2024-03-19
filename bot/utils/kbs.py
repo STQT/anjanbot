@@ -1,6 +1,7 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from django.utils.translation import gettext_lazy as _
-from aiogram.types import KeyboardButton
+from aiogram.types import KeyboardButton, InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 languages = (
     str(_("🇺🇿 O'zbek tili")),
@@ -45,3 +46,12 @@ def menu_kb(language_code='uz'):
         KeyboardButton(text=send_location_text[language_code], request_location=True)
     )
     return markup.adjust(2).as_markup(resize_keyboard=True)
+
+
+def approve(order_id):
+    builder = InlineKeyboardBuilder()
+    builder.add(InlineKeyboardButton(
+        text="Ko'rildi",
+        callback_data="order_" + str(order_id))
+    )
+    return builder.as_markup()
