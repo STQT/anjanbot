@@ -3,13 +3,17 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from django.utils.translation import activate
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import OrderSerializer
 
 from ..address.models import Address
 from ..users.models import TelegramUser
 
 
 def category_list(request):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(is_active=True)
     language = request.GET.get('lang', 'uz')
     activate(language)
     return render(request, 'products/category_list.html', {'categories': categories})
@@ -17,7 +21,7 @@ def category_list(request):
 
 def product_list(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
-    products = Product.objects.filter(category=category)
+    products = Product.objects.filter(category=category, is_active=True)
     language = request.GET.get('lang', 'uz')
     activate(language)
     return render(request, 'products/product_list.html', {'category': category, 'products': products})
@@ -80,12 +84,6 @@ def order(request):
 
     # Pass cart data to the template
     return render(request, 'products/order.html')
-
-
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import OrderSerializer
 
 
 @api_view(['POST'])
