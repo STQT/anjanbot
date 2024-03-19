@@ -20,11 +20,11 @@ def send_new_user_notification(sender, instance, created, **kwargs):
         sync_send_invoice = async_to_sync(bot.send_invoice)
         sync_send_message = async_to_sync(bot.send_message)
         price = LabeledPrice(label=str(_("Savatchangizdagi to'lov miqdori")),
-                             amount=int(instance.all_cost) * 100)
+                             amount=int(instance.all_cost.replace(" ", "")) * 100)
         invoice_data = {
             "chat_id": instance.user_id,
             "photo_url": CLICK_PHOTO if instance.cash_type == Order.CashTYPE.CLICK else PAYME_PHOTO,
-            "currency": "uzs",  # TODO: need to change after
+            "currency": "uzs",
             "title": "Anjan",
             "description": "Muzqaymoqlar haridi",
             "payload": str(instance.pk),
