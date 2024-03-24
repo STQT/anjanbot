@@ -24,8 +24,8 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
                              "Manzil: {address}\n"
                              "Filial: {filial}\n"
                              "Masofa: {distance}\n"
-                             "Narx: {cost}\n"
-                             "Yetkazib berish narxi: {delivery_cost}\n"
+                             # "Narx: {cost}\n"
+                             # "Yetkazib berish narxi: {delivery_cost}\n"
                              "Jami: {all_cost}\n"
                              "Foydalanuvchi: {user}\n"
                              "Check ID: {charge_id}\n")).format(
@@ -34,8 +34,8 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
             address=order.address,
             filial=order.filial.name,  # Assuming Branch model has a 'name' field
             distance=order.distance,
-            cost=order.cost,
-            delivery_cost=order.delivery_cost,
+            # cost=order.cost,
+            # delivery_cost=order.delivery_cost,
             all_cost=order.all_cost,
             user=order.user.phone if order.user else None,  # Assuming TelegramUser has a 'username' field
             charge_id=order.charge_id,
