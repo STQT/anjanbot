@@ -243,12 +243,11 @@ h2 {
 .cash-button {
   border: none;
   padding: 10px 0; /* Adjust padding as needed */
-  width: 50%;
+  width: 100%;
   background-color: var(--second-color);
   cursor: pointer;
   border-radius: 7px;
   display: inline-block; /* Change display to block */
-  margin-bottom: 10px; /* Add margin bottom to separate buttons */
 }
 
 .cash-button.active {
@@ -264,7 +263,6 @@ h2 {
   cursor: pointer;
   border-radius: 7px;
   display: inline-block; /* Change display to block */
-  margin-bottom: 10px; /* Add margin bottom to separate buttons */
 }
 
 .delivery-button.active {
