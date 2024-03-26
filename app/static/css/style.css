@@ -12,6 +12,8 @@
   --light-down: url('black.svg');
   --dark-down: url('white.svg');
   --down: var(--light-down);
+  var(--tg-theme-button-color);
+  --tg-theme-button-color: #00CCFF;
 }
 
 
@@ -21,6 +23,7 @@
   --text-color: var(--dark-text-color);
   --second-color: var(--dark-second-color);
   --down: var(--dark-down);
+  --tg-theme-button-color: var(--dark-second-color);
 }
 
 a {
@@ -168,16 +171,22 @@ h2 {
   text-align: center;
   height: 65px;
   flex: 1;
-  background-color: var(--second-color);
   border-radius: 7px;
+  background-color: var(--second-color);
+  align-items: center;
+  display: flex;
 }
 
 .back {
   /* Vector */
+  width: 100%; /* Set the width of the background */
+  height: 100%;
 
-  width: 18px;
-  height: 15px;
-  border: 2px
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(90deg);
+  background-image: var(--down);
 }
 
 
@@ -290,7 +299,7 @@ select {
   width: 100%;
   padding: 5px;
   height: 50px;
-  background-color: var(--second-color);
+  background-color: var(--text-color);
   border: none;
   appearance: none;
   -webkit-appearance: none; /* For older versions of WebKit browsers */

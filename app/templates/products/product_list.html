@@ -70,7 +70,7 @@
 
   </script>
   <div class="header">
-    <div class="left-column" onclick="goBack()"><img src="{% static 'images/back.svg' %}" alt="" class="back"></div>
+    <div class="left-column"><div class="back" onclick="goBack()"></div></div>
     <div class="center-column"><h2>{{ category.name }}</h2></div>
   </div>
   <ul class="category-list">
@@ -84,7 +84,7 @@
           <img src="{% static 'images/not_found.jpeg' %}" alt="Image Not Found" width="168px" height="168px"
                onclick="addToCart({{ product.id }},'{{ product.name }}')">
         {% endif %}
-        
+
         <div class="overlay-button" id="prod-{{ product.id }}"></div>
       </li>
     {% endfor %}
