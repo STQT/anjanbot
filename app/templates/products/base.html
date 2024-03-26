@@ -13,11 +13,16 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   function setThemeClass() {
-    document.documentElement.className = 'dark'; // Telegram.WebApp.colorScheme;
+
+    const body = document.body;
+    const isDarkMode = Telegram.WebApp.colorScheme === 'dark';
+    body.classList.toggle('dark-mode', isDarkMode);
   }
-  console.log(Telegram.WebApp.colorScheme);
+
+  console.log(Telegram.WebApp.colorScheme, 'light');
   Telegram.WebApp.onEvent('themeChanged', setThemeClass);
   setThemeClass();
+
   var l = window.Telegram.WebApp.SettingsButton
   l.isVisible = true;
   Telegram.WebApp.onEvent('settingsButtonClicked', function () {
