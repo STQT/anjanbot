@@ -300,7 +300,6 @@ select {
   padding: 5px;
   height: 50px;
   background-color: var(--second-color);
-  --text-color: var(--text-color);
   border: none;
   appearance: none;
   -webkit-appearance: none; /* For older versions of WebKit browsers */
@@ -309,6 +308,7 @@ select {
   background-repeat: no-repeat;
   background-position: calc(100% - 15px) center;
   border-radius: 7px;
+  color: var(--text-color);
 }
 
 /* Adjust input styles */
