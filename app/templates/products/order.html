@@ -313,7 +313,9 @@
         document.getElementById('totalAmount').innerHTML = cost.toLocaleString('en-US').replace(/,/g, ' ');
       }
     }
-
+  function goBack() {
+      window.history.back();
+    }
   </script>
 
 {% endblock %}
