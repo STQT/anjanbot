@@ -50,6 +50,15 @@ class Product(models.Model):
         return self.name
 
 
+class SelectedProduct(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='selected_products')
+    name = models.CharField(max_length=100)
+    count = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name} ({self.count})"
+
+
 class Order(models.Model):
     class STATUS(models.TextChoices):
         CREATED = ("created", _("Yaratildi"))

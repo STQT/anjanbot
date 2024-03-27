@@ -18,3 +18,10 @@ async def get_location_name_async(latitude, longitude) -> str:
     #
     # return short_address if address_components['country_code'] == 'uz' else None
     return location.address
+
+
+def get_location_name(latitude, longitude) -> str:
+    geolocator = Nominatim(user_agent="AnjanBotSync")
+    location = geolocator.reverse((latitude, longitude), language='en')
+    address = location.address if location else "NaN"
+    return address

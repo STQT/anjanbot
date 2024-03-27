@@ -38,26 +38,26 @@ services:
     image: docker.io/redis:6
     container_name: "${REDIS_CONTAINER_NAME}"
 
-  celeryworker:
-    <<: *django
-    image: "${CELERY_WORKER_IMAGE_NAME}"
-    container_name: "${CELERY_WORKER_CONTAINER_NAME}"
-    ports: [ ]
-    command: /start-celeryworker
+#  celeryworker:
+#    <<: *django
+#    image: "${CELERY_WORKER_IMAGE_NAME}"
+#    container_name: "${CELERY_WORKER_CONTAINER_NAME}"
+#    ports: [ ]
+#    command: /start-celeryworker
+#
+#  celerybeat:
+#    <<: *django
+#    image: "${CELERY_BEAT_IMAGE_NAME}"
+#    container_name: "${CELERY_BEAT_CONTAINER_NAME}"
+#    ports: [ ]
+#    command: /start-celerybeat
 
-  celerybeat:
-    <<: *django
-    image: "${CELERY_BEAT_IMAGE_NAME}"
-    container_name: "${CELERY_BEAT_CONTAINER_NAME}"
-    ports: [ ]
-    command: /start-celerybeat
-
-  bot:
-    <<: *django
-    image: "${BOT_IMAGE_NAME}"
-    container_name: "${BOT_CONTAINER_NAME}"
-    ports: [ ]
-    command: /start-bot
+#  bot:
+#    <<: *django
+#    image: "${BOT_IMAGE_NAME}"
+#    container_name: "${BOT_CONTAINER_NAME}"
+#    ports: [ ]
+#    command: /start-bot
 
 #  flower:
 #    <<: *django

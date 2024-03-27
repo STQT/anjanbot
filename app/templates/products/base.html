@@ -19,7 +19,6 @@
     body.classList.toggle('dark-mode', isDarkMode);
   }
 
-  console.log(Telegram.WebApp.colorScheme, 'light');
   Telegram.WebApp.onEvent('themeChanged', setThemeClass);
   setThemeClass();
 

@@ -1,6 +1,5 @@
 function addToCart(productId, productName) {
     var productCount = parseInt(sessionStorage.getItem('product_' + productId)) || null;
-    console.log(productCount);
     getProductData(productId, productName) // Fetch product data
         .then(productData => {
             if (productCount === null) {

@@ -3,7 +3,7 @@ from aiogram.types import PreCheckoutQuery
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from app.products.models import Order
+from app.products.models import Order, SelectedProduct
 from app.users.models import TelegramUser as User
 from bot.utils.kbs import approve
 
@@ -18,6 +18,11 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
         order.status = order.STATUS.PAID
         order.charge_id = message.successful_payment.provider_payment_charge_id
         await order.asave()
+
+        # Get the list of selected products for the order
+        selected_products = await SelectedProduct.objects.filter(order=order)
+        products_text = "\n".join([f"{product.name}: {product.count}" for product in selected_products])
+
         success_text = str(_("<b>Yangi buyurtma</b>\n"
                              "To'lov turi: {cash_type}\n"
                              "Yetkazib berish: {delivery}\n"
@@ -28,7 +33,9 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
                              # "Yetkazib berish narxi: {delivery_cost}\n"
                              "Jami: {all_cost}\n"
                              "Foydalanuvchi: {user}\n"
-                             "Check ID: {charge_id}\n")).format(
+                             "Mahsulotlar:\n{products}\n"
+                             "Check ID: {charge_id}\n"
+                             )).format(
             cash_type=order.get_cash_type_display(),
             delivery=str(_("Xa")) if order.delivery == 'yes' else str(_("Yo'q")),
             address=order.address,
@@ -39,6 +46,7 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
             all_cost=order.all_cost,
             user=order.user.phone if order.user else None,  # Assuming TelegramUser has a 'username' field
             charge_id=order.charge_id,
+            products=products_text,  # Add the list of selected products to the message
         )
         await message.bot.send_message(order.user_id, success_text)
         await message.bot.send_message(settings.TELEGRAM_GROUP_ID, success_text, reply_markup=approve(order.pk))

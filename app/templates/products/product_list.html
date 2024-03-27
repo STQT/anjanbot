@@ -97,7 +97,6 @@
     document.addEventListener('DOMContentLoaded', function () {
       // Loop through each product and update its display
       var products = document.querySelectorAll('.category-list li');
-      console.log(products);
       products.forEach(function (product) {
         var productId = product.getAttribute('data-product-id');
         var productName = product.getAttribute('data-product-name');

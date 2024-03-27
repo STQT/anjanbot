@@ -21,6 +21,7 @@ def send_new_user_notification(sender, instance, created, **kwargs):
         sync_send_message = async_to_sync(bot.send_message)
         price = LabeledPrice(label=str(_("Savatchangizdagi to'lov miqdori")),
                              amount=int(instance.all_cost.replace(" ", "")) * 100)
+        # Prepare invoice data
         invoice_data = {
             "chat_id": instance.user_id,
             "photo_url": CLICK_PHOTO if instance.cash_type == Order.CashTYPE.CLICK else PAYME_PHOTO,
@@ -31,9 +32,13 @@ def send_new_user_notification(sender, instance, created, **kwargs):
             "provider_token": CLICK if instance.cash_type == Order.CashTYPE.CLICK else PAYME,
             "prices": [price]
         }
+        # Prepare message data
         message_data = {
             "chat_id": instance.user_id,
             "text": str(_("Xaridni to'lash uchun quyidagi tugma orqali to'lang"))
         }
+        selected_products_message = "\n".join(
+            [f"{product.name}: {product.count}" for product in instance.selected_products.all()])
+        message_data["text"] += f"\n\n{selected_products_message}"
         sync_send_message(**message_data)
         sync_send_invoice(**invoice_data)

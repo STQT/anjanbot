@@ -1,7 +1,12 @@
 from django.contrib import admin
 from modeltranslation.admin import TabbedTranslationAdmin
 
-from .models import Category, Product, Order
+from .models import Category, Product, Order, SelectedProduct
+
+
+class SelectedProductInline(admin.TabularInline):
+    model = SelectedProduct
+    extra = 0
 
 
 @admin.register(Category)
@@ -19,6 +24,7 @@ class ProductAdmin(TabbedTranslationAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['filial', 'address', 'user_phone', 'all_cost', 'delivery', "status"]
     list_display_links = ['filial', 'address', 'user_phone']
+    inlines = [SelectedProductInline]
 
     def user_phone(self, obj):
         return obj.user.phone if obj.user else None

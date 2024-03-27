@@ -5,12 +5,14 @@
   <script src="{% static 'js/order.js' %}"></script>
   <script src="{% static 'js/project.js' %}"></script>
   <div class="header">
-    <div class="left-column"><div class="back" onclick="goBack()"></div></div>
+    <div class="left-column">
+      <div class="back" onclick="goBack()"></div>
+    </div>
     <div class="center-column"><h2>{% trans "Buyurtma" %}</h2></div>
   </div>
   <div style="padding: 10px">
     <div class="form-group">
-{#      <button type="button" class="cash-button active" value="payme">Payme</button>#}
+      {#      <button type="button" class="cash-button active" value="payme">Payme</button>#}
       <button type="button" class="cash-button active" value="click">Click</button>
       <input type="hidden" id="cashType" name="cashType" value="click">
       <!-- Hidden input to store the selected value -->
@@ -27,6 +29,7 @@
       <label for="address" hidden></label>
       <select id="address" name="address">
       </select>
+      <button onclick="getLocation()">{% trans 'Hozirgi manzil' %}</button>
       <input type="hidden" id="selectedAddress" name="selectedAddress" value="">
     </div>
 
@@ -48,17 +51,20 @@
         <div class="right"> {% trans 'Yetkazib boʻlgach' %}</div>
         <div class="right" id="deliveryCost"></div>
       </div>
-{#      <div class="cost">#}
-{#        <div class="left">{% trans 'Narxi:' %}</div>#}
-{#        <div class="right"> {% trans 'soʻm' %}</div>#}
-{#        <div class="right" id="cost">0</div>#}
-{#      </div>#}
+
+      {#      <div class="cost">#}
+      {#        <div class="left">{% trans 'Narxi:' %}</div>#}
+      {#        <div class="right"> {% trans 'soʻm' %}</div>#}
+      {#        <div class="right" id="cost">0</div>#}
+      {#      </div>#}
       <div class="divider"></div>
+
       <div class="cost">
         <div class="left">{% trans 'Jami:' %}</div>
         <div class="right" style="font-size: 20px"> {% trans 'soʻm' %}</div>
         <div class="right" id="totalAmount" style="font-size: 20px">0</div>
       </div>
+      <button onclick="createOrder()">Kettik</button>
     </div>
   </div>
 
@@ -145,11 +151,19 @@
         all_cost: document.getElementById('totalAmount').innerHTML,
         user: parseInt(user.id),
       };
+      const selectedProducts = [];
+      for (var i = 0; i < sessionStorage.length; i++) {
+        var key = sessionStorage.key(i);
+        if (key.startsWith('product_')) {
+          var product = JSON.parse(sessionStorage.getItem(key));
+          selectedProducts.push({name: product.name, count: product.count});
+        }
+      }
+      formData.selected_products = selectedProducts;
       fetch('/create-order/', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            // Add any necessary headers
+            'Content-Type': 'application/json'
           },
 
           body: JSON.stringify(formData)
@@ -159,7 +173,6 @@
         .then(response => {
           if (response.ok) {
             // Order created successfully, handle response as needed
-            console.log('Order created successfully');
             Telegram.WebApp.close()
           } else {
             console.error('Failed to create order');
@@ -313,8 +326,96 @@
         document.getElementById('totalAmount').innerHTML = cost.toLocaleString('en-US').replace(/,/g, ' ');
       }
     }
-  function goBack() {
+
+    // Back
+    function goBack() {
       window.history.back();
+    }
+
+    // Location get
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      // Retrieve latitude and longitude
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      // Update the hidden input field with the selected geolocation
+
+      // Fetch use
+
+      // Create formData object including userId, latitude, and longitude
+      const formData = {
+        user_id: user.id,
+        latitude: latitude,
+        longitude: longitude
+      };
+
+      // Send POST request to server
+      fetch('/branches/get-address/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          if (response.ok) {
+            // Handle successful response from the server
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch address from server');
+          }
+        })
+        .then(data => {
+          // Handle the response data from the server
+          // Update select options with the location name
+          const addressSelect = document.getElementById('address');
+          const option = document.createElement('option');
+          option.value = data.id; // Assuming the address data contains the location name
+          option.textContent = data.name;
+          addressSelect.appendChild(option);
+          option.selected = true;
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request or response
+          console.error('Error:', error);
+        });
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+
+    function getCookie(name) {
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(name + '='));
+
+      if (cookieValue) {
+        return cookieValue.split('=')[1];
+      } else {
+        return null;
+      }
     }
   </script>
 
