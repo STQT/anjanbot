@@ -20,8 +20,8 @@ async def echo_successfull_payment(message: types.Message, user: User) -> None:
         await order.asave()
 
         # Get the list of selected products for the order
-        selected_products = await SelectedProduct.objects.filter(order=order)
-        products_text = "\n".join([f"{product.name}: {product.count}" for product in selected_products])
+        selected_products = SelectedProduct.objects.filter(order=order)
+        products_text = "\n".join([f"{product.name}: {product.count}" async for product in selected_products])
 
         success_text = str(_("<b>Yangi buyurtma</b>\n"
                              "To'lov turi: {cash_type}\n"

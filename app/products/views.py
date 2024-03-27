@@ -1,8 +1,8 @@
 # store/views.py
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework import generics
 from .models import Category, Product, Order
 from django.utils.translation import activate
 from rest_framework import status
@@ -96,9 +96,6 @@ def create_order(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-from rest_framework import generics
 
 
 class CreateOrderAPIView(generics.CreateAPIView):
