@@ -382,6 +382,8 @@
           option.textContent = data.name;
           addressSelect.appendChild(option);
           option.selected = true;
+          const event = new Event('change');
+          addressSelect.dispatchEvent(event);
         })
         .catch(error => {
           // Handle any errors that occur during the request or response
